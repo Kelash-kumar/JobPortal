@@ -6,7 +6,7 @@ const errorHandler = require("../utils/errorHandler");
 const generateToken = require("../utils/generateToken");
 const bcrypt = require("bcryptjs");
 
-const sendToken = (user, statusCode, res) => {
+const sendResponse = (user, statusCode, res) => {
   const token = generateToken(user._id);
   res.status(statusCode).json({
     success: true,
@@ -35,7 +35,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
       email,
       password: hashedPass,
     });
-    sendToken(newUser, 201, res);
+    sendResponse(newUser, 201, res);
   } catch (error) {
     return next(new errorHandler(500, error.message));
   }
@@ -61,7 +61,7 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
       return next(new errorHandler(401, "Invalid credentials"));
     }
 
-    sendToken(user, 200, res);
+    sendResponse(user, 200, res);
   } catch (error) {
     return next(new errorHandler(500, error.message));
   }
@@ -70,30 +70,64 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
+
     if (!user) {
       return next(new errorHandler("Invalid email"));
     }
+
     const generatedResetToken = crypto.randomBytes(32).toString("hex");
     user.resetPasswordToken = generatedResetToken;
-    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+
     await user.save();
-    const reset_url = `${req.protocol}://localhost:3000/api/v1/auth/reset-password/${token}`;
-    sendEmail(
-      user.email,
-      "reset password ",
-      `your reset password url link is below and it will expires in 10 minutes  : /n/n ${reset_url}`
-    );
+
+    const resetURL = `${req.protocol}://${req.get('host')}/api/v1/auth/reset-password/${generatedResetToken}`;
+    const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: \n\n ${resetURL}.\n\nIf you didn't forget your password, please ignore this email!`;
+
+    await sendEmail({
+      email: user.email,
+      subject: "Password reset token",
+      message,
+    });
+
     res.status(200).json({
-      message: `Reset password email has sent to you at ${user.email}`,
+      message: `Reset password email has been sent to ${user.email}`,
     });
   } catch (error) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+
     return next(new errorHandler(500, error.message));
   }
 });
 
-exports.resetPassword = asyncHandler(async (req, res) => {
+exports.resetPassword = asyncHandler(async (req, res,next) => {
   try {
-    const { password } = req.body;
+    const {token} = req.params;
+    const {password} = req.body;
+    console.log(token);
+    if (!token) {
+      return next(new errorHandler(400, "Token is invalid"));
+    }
+    if(!password){
+      return next(new errorHandler(400, "Please provide a password"));
+    }
+    const user = await User.findOne({}).where("resetPasswordToken").equals(token).where("resetPasswordExpire").gt(Date.now());
+    if (!user) {
+      return next(new errorHandler(400, "Invalid token "));
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = await bcrypt.hash(password, salt);
+    user.password = hashedPass;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message: "Password reset successful",
+    });
+
   } catch (error) {
     return next(new errorHandler(500, error.message));
   }
