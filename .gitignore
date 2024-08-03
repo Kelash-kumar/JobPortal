@@ -1,0 +1,6 @@
+#  write all ingore able files and folders
+node_modules
+dist
+.env
+
+
