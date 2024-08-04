@@ -31,8 +31,9 @@ const userSchema = new mongoose.Schema(
     },
     profile: {
       bio: { type: String },
-      skill: { type: String },
+      skill: { type: [String] },
       resume: { type: String },
+      resumeOriginalName: { type: String },
       company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Company",

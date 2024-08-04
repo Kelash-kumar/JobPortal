@@ -5,18 +5,16 @@ const asyncHandler = require("../utils/asyncHandler");
 const errorHandler = require("../utils/errorHandler");
 const generateToken = require("../utils/generateToken");
 const bcrypt = require("bcryptjs");
-const exp = require("constants");
 
 const sendResponseToken = (user, statusCode, res) => {
   const token = generateToken(user._id);
   res.status(statusCode).json({
     success: true,
     token,
-  
+
     data: { user },
   });
 };
-
 exports.registerUser = asyncHandler(async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -41,15 +39,12 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
     return next(new errorHandler(500, error.message));
   }
 });
-
 exports.loginUser = asyncHandler(async (req, res, next) => {
   try {
-    //provide user role;
     const { email, password } = req.body;
     if (!email || !password) {
       return next(new errorHandler(400, "Please provide email and password"));
     }
-
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return next(
@@ -61,10 +56,17 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
     if (!isMatch) {
       return next(new errorHandler(401, "Invalid credentials"));
     }
-    res.status(200).cookie("token", generateToken(user._id), {
-      httpOnly: true,
-      sameSite:'restrict',
-    });
+    res
+      .status(200)
+      .cookie("token", generateToken(user._id), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "none",
+      })
+      .json({
+        success: true,
+        user,
+      });
   } catch (error) {
     return next(new errorHandler(500, error.message));
   }
@@ -114,7 +116,6 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
     return next(new errorHandler(500, error.message));
   }
 });
-
 exports.resetPassword = asyncHandler(async (req, res, next) => {
   try {
     const { token } = req.params;
@@ -148,8 +149,33 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
     return next(new errorHandler(500, error.message));
   }
 });
+exports.updateProfile = asyncHandler(async (req, res, next) => {
+  try {
+    const { name, email, phoneNumber,role ,bio, skills } = req.body;
+    if (!name || !email || !phoneNumber || !bio || !skills || !role) {
+      return next(new errorHandler(400, "Please provide all fields"));
+    }
 
+    const skillArray = skills.split(",");
+    console.log(skillArray);
+    const userId = req.user.id; //from authmiddleware
+    const user = await User.findById(userId);
+    if (!user) {
+      return next(new errorHandler(404, "User not found"));
+    }
 
-exports.protected = asyncHandler((req,res)=>{
-  res.status(200).json({message:'i am authorized'})
-})
+    user.name = name;
+    user.email = email;
+    user.phoneNumber = phoneNumber;
+    user.role=role;
+    user.profile.bio = bio;
+    user.profile.skill = skillArray;
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+    });
+  } catch (error) {
+    return next(new errorHandler(500, error.message));
+  }
+});
