@@ -1,16 +1,18 @@
 const express = require("express");
-// const cors = require("cors");
-// const morgan = require("morgan");
+const cors = require("cors");
+const morgan = require("morgan");
 const session = require("express-session");
 // const globalErrorHandler = require("./middlewares/errorMiddleware");
 require("dotenv").config();
 const connectDB = require("./config/db");
+const cookieParser = require("cookie-parser");
+const errorHandler = require("./utils/errorHandler");
 const app = express();
 const port = process.env.PORT || 5000;
 
-// app.use(cors({origin:true}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({ origin: true }));
 app.use(
   session({
     secret: "joportal",
@@ -21,18 +23,19 @@ app.use(
     },
   })
 );
+app.use(cookieParser());
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
-// if (process.env.NODE_ENV === "development") {
-//   app.use(morgan("dev"));
-// }
-
-// app.all("*", (req, res, next) => {
-//   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-// });
+app.use(require("./routes/apiRoutes"));
+app.all("*", (req, res, next) => {
+  next(new errorHandler(404, `Can't find ${req.originalUrl} on this server!`));
+});
 
 // app.use(globalErrorHandler);
 connectDB();
-app.use(require('./routes/apiRoutes'))
+
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });

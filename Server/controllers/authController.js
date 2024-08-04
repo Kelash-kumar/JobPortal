@@ -5,16 +5,17 @@ const asyncHandler = require("../utils/asyncHandler");
 const errorHandler = require("../utils/errorHandler");
 const generateToken = require("../utils/generateToken");
 const bcrypt = require("bcryptjs");
+const exp = require("constants");
 
-const sendResponse = (user, statusCode, res) => {
+const sendResponseToken = (user, statusCode, res) => {
   const token = generateToken(user._id);
   res.status(statusCode).json({
     success: true,
     token,
+  
     data: { user },
   });
 };
-// @desc    Register user
 
 exports.registerUser = asyncHandler(async (req, res, next) => {
   try {
@@ -35,13 +36,15 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
       email,
       password: hashedPass,
     });
-    sendResponse(newUser, 201, res);
+    sendResponseToken(newUser, 201, res); //token sent
   } catch (error) {
     return next(new errorHandler(500, error.message));
   }
 });
+
 exports.loginUser = asyncHandler(async (req, res, next) => {
   try {
+    //provide user role;
     const { email, password } = req.body;
     if (!email || !password) {
       return next(new errorHandler(400, "Please provide email and password"));
@@ -55,13 +58,21 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log(isMatch);
-
     if (!isMatch) {
       return next(new errorHandler(401, "Invalid credentials"));
     }
-
-    sendResponse(user, 200, res);
+    res.status(200).cookie("token", generateToken(user._id), {
+      httpOnly: true,
+      sameSite:'restrict',
+    });
+  } catch (error) {
+    return next(new errorHandler(500, error.message));
+  }
+});
+exports.logout = asyncHandler(async (req, res, next) => {
+  try {
+    res.clearCookie("token");
+    res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     return next(new errorHandler(500, error.message));
   }
@@ -81,7 +92,9 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
     await user.save();
 
-    const resetURL = `${req.protocol}://${req.get('host')}/api/v1/auth/reset-password/${generatedResetToken}`;
+    const resetURL = `${req.protocol}://${req.get(
+      "host"
+    )}/api/v1/auth/reset-password/${generatedResetToken}`;
     const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: \n\n ${resetURL}.\n\nIf you didn't forget your password, please ignore this email!`;
 
     await sendEmail({
@@ -102,18 +115,22 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.resetPassword = asyncHandler(async (req, res,next) => {
+exports.resetPassword = asyncHandler(async (req, res, next) => {
   try {
-    const {token} = req.params;
-    const {password} = req.body;
+    const { token } = req.params;
+    const { password } = req.body;
     console.log(token);
     if (!token) {
       return next(new errorHandler(400, "Token is invalid"));
     }
-    if(!password){
+    if (!password) {
       return next(new errorHandler(400, "Please provide a password"));
     }
-    const user = await User.findOne({}).where("resetPasswordToken").equals(token).where("resetPasswordExpire").gt(Date.now());
+    const user = await User.findOne({})
+      .where("resetPasswordToken")
+      .equals(token)
+      .where("resetPasswordExpire")
+      .gt(Date.now());
     if (!user) {
       return next(new errorHandler(400, "Invalid token "));
     }
@@ -127,8 +144,12 @@ exports.resetPassword = asyncHandler(async (req, res,next) => {
       success: true,
       message: "Password reset successful",
     });
-
   } catch (error) {
     return next(new errorHandler(500, error.message));
   }
 });
+
+
+exports.protected = asyncHandler((req,res)=>{
+  res.status(200).json({message:'i am authorized'})
+})
