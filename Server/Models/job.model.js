@@ -33,11 +33,12 @@ const jobSchema = new mongoose.Schema({
     },
     position:{
         type:Number,
-        required:[true,"Please provide a position"]
+        required:[false,"Please provide a position"]
     },
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
+        
     },// recruiter who posted the job
     applicants:[{
         type:mongoose.Schema.Types.ObjectId,
