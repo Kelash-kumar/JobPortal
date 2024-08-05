@@ -45,12 +45,10 @@ const jobSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     }, // recruiter who posted the job
-    applicants: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ], // students who applied for the job
+    applications:[{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Application",
+    }] // all applications for this job that are pending, accepted or rejected
   },
   { timestamps: true }
 );
