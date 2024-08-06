@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const session = require("express-session");
 // const globalErrorHandler = require("./middlewares/errorMiddleware");
 require("dotenv").config();
 const connectDB = require("./config/db");
@@ -13,16 +12,6 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: true }));
-app.use(
-  session({
-    secret: "joportal",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 60000,
-    },
-  })
-);
 app.use(cookieParser());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));

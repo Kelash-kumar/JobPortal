@@ -55,6 +55,8 @@ exports.postJob = asyncHandler(async (req, res, next) => {
     if (!job) {
       return next(new errorHandler(400, "Failed to post job"));
     }
+    company.jobs.push(job._id);
+    await company.save();
     res.status(200).json({
       success: true,
       message: "Post job",
