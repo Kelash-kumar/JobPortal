@@ -1,8 +1,7 @@
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
-
-
-
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -66,8 +65,9 @@ const Navbar = () => {
       ) : (
         <div className="login_register_option">
           <div>
-            <button onClick={()=>navigate('/signin')}>Login</button>
-            <button onClick={()=>navigate('/signup')}>SignUp</button>
+            <button onClick={() => navigate("/signin")}>Login</button>
+            <button onClick={() => navigate("/signup")}>SignUp</button>
+            <button onClick={() => toast.success("good")}>good</button>
           </div>
         </div>
       )}

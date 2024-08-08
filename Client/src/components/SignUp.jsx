@@ -1,30 +1,56 @@
-// import './Auth.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
+import { USER_API_END_POINT } from "../constants";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
-    phone: "",
+    phoneNumber: "",
     role: "",
-    profile: "",
+    profile: null,  // Initialize as null
   });
 
   const changeInputHandler = (e) => {
     return setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const changeProfileHandler = (e) =>{
-    return setData({ ...data, profile: e.target.profile?.[0] });
-
-  }
-
-  const handleSubmitHandler = (e) => {
-    e.preventDefault();
-    console.log(data);
+  const changeProfileHandler = (e) => {
+    return setData({ ...data, profile: e.target.files?.[0] });
   };
+
+  const handleSubmitHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("phoneNumber", data.phoneNumber);
+    formData.append("password", data.password);
+    formData.append("role", data.role);
+
+    // if (data.profile) {
+    //   formData.append("profile", data.profile);
+    // }
+
+    try {
+      const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
+
+      if (res.data.success) {
+        navigate("/signin");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="auth-container">
       <h2>Sign Up</h2>
@@ -52,12 +78,12 @@ const SignUp = () => {
           />
         </div>
         <div className="form-group">
-          <label>Phone</label>
+          <label>Phone Number</label>
           <input
             type="tel"
             placeholder="Enter your phone number"
-            name="phone"
-            value={data.phone}
+            name="phoneNumber"
+            value={data.phoneNumber}
             onChange={changeInputHandler}
             required
           />
@@ -75,7 +101,7 @@ const SignUp = () => {
         </div>
         <div className="profile-and-role">
           <div className="role-options">
-            <label>Select your Role? :</label>
+            <label>Select your Role:</label>
             <label>
               <input
                 type="radio"
@@ -84,7 +110,7 @@ const SignUp = () => {
                 checked={data.role === "student"}
                 onChange={changeInputHandler}
               />
-              student
+              Student
             </label>
             <label>
               <input
@@ -94,7 +120,7 @@ const SignUp = () => {
                 checked={data.role === "recruiter"}
                 onChange={changeInputHandler}
               />
-              recruiter
+              Recruiter
             </label>
           </div>
           <div className="user-profile">
@@ -104,15 +130,13 @@ const SignUp = () => {
                 accept="image/*"
                 onChange={changeProfileHandler}
               />
-              profile
+              Profile
             </label>
           </div>
         </div>
-        <button type="submit" >
-          Sign Up
-        </button>
+        <button type="submit">Sign Up</button>
         <span>
-          Already Have an Account? <Link to="/login">SignIn Here</Link>
+          Already Have an Account? <Link to="/login">Sign In Here</Link>
         </span>
       </form>
     </div>
