@@ -1,0 +1,102 @@
+
+.hero-container {
+    height: 60vh;
+  background: #f4f4f4; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333; /* Dark gray text for contrast */
+  text-align: center;
+  padding: 0 20px;
+  position: relative;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  line-height: 0.4;
+  font-weight: bold;
+  color: #333;
+  text-transform: capitalize;
+}
+.headline {
+  width: auto;
+  padding: 5px 20px;
+  background-color: rgb(199, 198, 198);
+  border-radius: 30px;
+  color:rgb(255, 255, 0);
+}
+
+.hero-content h1 span {
+  color: #ffd700; /* Yellow to match your logo */
+}
+
+.hero-content p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  color: #666; /* Medium gray for subtitle */
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.search input {
+  width: 500px;
+  padding: 12px 20px;
+  border: 2px solid #ddd;
+  border-radius: 30px;
+  outline: none;
+  font-size: 1rem;
+  color: #333;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.search input::placeholder {
+    color: #999; 
+    
+}
+
+.search input:focus {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); 
+    border-color: #FFD700;
+}
+
+
+.search input::placeholder {
+  color: #999; /* Light gray for placeholder text */
+}
+
+.search .search_icon {
+  width: 43px;
+  height: 43.5px;
+  position: relative;
+  left: -45px;
+  background: #dfdddd;
+  border-radius: 0 30px 30px 0;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.search .CiSearch:hover {
+  background: #e6c300; /* Slightly darker yellow on hover */
+}
+
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .search input {
+    width: 80%;
+  }
+}
