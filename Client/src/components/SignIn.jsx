@@ -2,16 +2,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { USER_API_END_POINT } from "../constants";
-import { toast } from 'react-hot-toast';
-
-
-
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../redux/authSlice";
 const SignIn = () => {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+  const { loading } = user;
   const changeInputHandler = (e) => {
     return setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -19,6 +21,7 @@ const SignIn = () => {
   const handleSubmitHandler = async (e) => {
     e.preventDefault();
     try {
+      dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/signIn`, data, {
         headers: {
           "Content-Type": "application/json",
@@ -26,12 +29,14 @@ const SignIn = () => {
       });
 
       if (res.data.success) {
-       toast.success("loggedIn successfuly");
-       navigate("/home");
+        toast.success("loggedIn successfuly");
+        navigate("/home");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return toast.error(error.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -61,7 +66,7 @@ const SignIn = () => {
             required
           />
         </div>
-        <button type="submit">Sign In</button>
+        {loading ? <p>loading...</p> : <button type="submit">Sign In</button>}
         <br />
         <span>
           Already Have an Account? <Link to="/login">SignIn Here</Link>
