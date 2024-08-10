@@ -25,17 +25,16 @@
   padding: 5px 20px;
   background-color: rgb(199, 198, 198);
   border-radius: 30px;
-  color:rgb(255, 255, 0);
 }
 
 .hero-content h1 span {
-  color: #ffd700; /* Yellow to match your logo */
+  color: #ffc107; 
 }
 
 .hero-content p {
   font-size: 1.25rem;
   margin-bottom: 2rem;
-  color: #666; /* Medium gray for subtitle */
+  color: #666; 
 }
 
 .search {
@@ -53,7 +52,7 @@
   outline: none;
   font-size: 1rem;
   color: #333;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 10px 13px rgba(0, 0, 0, 0.1);
 }
 
 

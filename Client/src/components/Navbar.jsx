@@ -59,7 +59,7 @@ const Navbar = () => {
         <div className="login_register_option">
           <div>
             <button onClick={() => navigate("/signin")}>Login</button>
-            <button onClick={() => navigate("/signup")}>SignUp</button>
+            <button onClick={() => navigate("/signup")} style={{backgroundColor:'#ffc107'}}>SignUp</button>
           </div>
         </div>
       )}

@@ -1,0 +1,84 @@
+/* FeaturedJobs.css */
+
+.featured-container {
+    background-color: #fff; /* White background */
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.featured-title {
+    font-size: 2.5rem;
+    color: #333; 
+    text-align: left;
+    margin-bottom: 30px;
+    font-weight: bold;
+    padding-left: 1.8rem;
+}
+
+.featured-jobs {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.job-card {
+    width: 350px;
+    background: #f9f9f9;
+    padding: 20px;
+    text-align: left;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+}
+
+.job-card h3 {
+    font-size: 1.5rem;
+    color: #000;
+    margin: 0;
+}
+.job-card h4{
+ font-weight: 600;
+    margin: 0;
+
+}
+.job-card p{
+    margin-top: 5px;
+    font-size: 1rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #666; 
+   
+}
+
+.job_categories{
+ display: flex;
+ justify-content: space-around;
+ margin-top: 0.8rem;
+}
+
+.job_categories .job_position,.job_type,.job_salary{
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: #f1f1f1;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+.job_categories .job_position{
+    color: #333333;
+    
+}
+.job_categories .job_type {
+    color: #004080;
+    
+}
+.job_categories .job_salary{
+    color: #228B22;
+   
+}
+
+
+.job-card:hover {
+  
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+}
