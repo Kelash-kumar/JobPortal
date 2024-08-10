@@ -5,6 +5,9 @@ import { USER_API_END_POINT } from "../constants";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../redux/authSlice";
+
+
+
 const SignIn = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth);
@@ -41,6 +44,7 @@ const SignIn = () => {
   };
 
   return (
+    <div className="auth_body">
     <div className="auth-container">
       <h2>Sign In</h2>
       <form onSubmit={handleSubmitHandler}>
@@ -69,9 +73,10 @@ const SignIn = () => {
         {loading ? <p>loading...</p> : <button type="submit">Sign In</button>}
         <br />
         <span>
-          Already Have an Account? <Link to="/login">SignIn Here</Link>
+         Do not have Account? <Link to="/signup">Sign Up Here</Link>
         </span>
       </form>
+    </div>
     </div>
   );
 };

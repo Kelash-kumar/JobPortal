@@ -79,6 +79,5 @@
 
 
 .job-card:hover {
-  
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }

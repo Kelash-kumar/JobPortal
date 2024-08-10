@@ -61,6 +61,7 @@ const {loading} = user;
   };
 
   return (
+    <div className="auth_body">
     <div className="auth-container">
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmitHandler}>
@@ -146,9 +147,10 @@ const {loading} = user;
         </div>
         {loading ? <p>loading...</p> : <button type="submit">Sign up</button>}
         <span>
-          Already Have an Account? <Link to="/login">Sign In Here</Link>
+          Already Have an Account? <Link to="/signin">Sign In Here</Link>
         </span>
       </form>
+    </div>
     </div>
   );
 };
