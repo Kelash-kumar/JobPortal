@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -16,19 +15,13 @@ const Navbar = () => {
       <div className="nav-list-elements">
         <ul>
           <li>
-            <Link className="nav-list-elements_link" to={"/"}>
-              Home
-            </Link>
+          <Link className="nav-list-elements_link" to="/home">Home</Link>
           </li>
           <li>
-            <Link className="nav-list-elements_link" to="/jobs">
-              Jobs
-            </Link>
+          <Link className="nav-list-elements_link" to="/jobs">jobs</Link>
           </li>
           <li>
-            <Link className="nav-list-elements_link" to="/browse" Link>
-              Browse
-            </Link>
+          <Link className="nav-list-elements_link" to="/browse">browse</Link>
           </li>
         </ul>
       </div>
@@ -67,7 +60,6 @@ const Navbar = () => {
           <div>
             <button onClick={() => navigate("/signin")}>Login</button>
             <button onClick={() => navigate("/signup")}>SignUp</button>
-            <button onClick={() => toast.success("good")}>good</button>
           </div>
         </div>
       )}

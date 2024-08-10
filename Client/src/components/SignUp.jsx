@@ -11,16 +11,16 @@ const SignUp = () => {
     password: "",
     phoneNumber: "",
     role: "",
-    profile: null,  // Initialize as null
+    // profilePhoto: null,  // Initialize as null
   });
 
   const changeInputHandler = (e) => {
     return setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const changeProfileHandler = (e) => {
-    return setData({ ...data, profile: e.target.files?.[0] });
-  };
+  // const changeProfileHandler = (e) => {
+  //   return setData({ ...data, profile: e.target.files?.[0] });
+  // };
 
   const handleSubmitHandler = async (e) => {
     e.preventDefault();
@@ -32,9 +32,9 @@ const SignUp = () => {
     formData.append("role", data.role);
 
     // if (data.profile) {
-    //   formData.append("profile", data.profile);
+    //   formData.append("profilePhoto", data.profile);
     // }
-
+    console.log(formData);
     try {
       const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
         headers: {
@@ -44,10 +44,11 @@ const SignUp = () => {
       });
 
       if (res.data.success) {
+        console.log(res);
         navigate("/signin");
       }
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
     }
   };
 
@@ -123,16 +124,17 @@ const SignUp = () => {
               Recruiter
             </label>
           </div>
-          <div className="user-profile">
+          {/* <div className="user-profile">
             <label>
               <input
                 type="file"
+                name="profilePhoto"
                 accept="image/*"
                 onChange={changeProfileHandler}
               />
               Profile
             </label>
-          </div>
+          </div> */}
         </div>
         <button type="submit">Sign Up</button>
         <span>

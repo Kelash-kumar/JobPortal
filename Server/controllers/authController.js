@@ -5,6 +5,8 @@ const asyncHandler = require("../utils/asyncHandler");
 const errorHandler = require("../utils/errorHandler");
 const generateToken = require("../utils/generateToken");
 const bcrypt = require("bcryptjs");
+// const upload = require('../middlewares/upload');
+
 
 const sendResponseToken = (user, statusCode, res) => {
   const token = generateToken(user._id);
@@ -15,12 +17,15 @@ const sendResponseToken = (user, statusCode, res) => {
     data: { user },
   });
 };
+
+
 exports.registerUser = asyncHandler(async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
+    const { name,email,phoneNumber,password,role} = req.body;
+    
+    if (!name || !email || !password || !role || !phoneNumber) {
       return next(
-        new errorHandler(400, "Please provide name, email and password")
+        new errorHandler(400, "Please provide name, email ,phoneNumber , password and role ")
       );
     }
     const user = await User.findOne({ email });
@@ -33,15 +38,27 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
       name,
       email,
       password: hashedPass,
+      phoneNumber,
+      role,
+      profilePhoto: req.file ? req.file.path : null
     });
     sendResponseToken(newUser, 201, res); //token sent
   } catch (error) {
     return next(new errorHandler(500, error.message));
   }
 });
+
+
+
+
+
+
+
+
 exports.loginUser = asyncHandler(async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const {email,password}= req.body;
+    console.log(req.body)
     if (!email || !password) {
       return next(new errorHandler(400, "Please provide email and password"));
     }
@@ -54,7 +71,7 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return next(new errorHandler(401, "Invalid credentials"));
+      return next(new errorHandler(401, "Invalid password "));
     }
     res
       .status(200)
@@ -71,6 +88,12 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
     return next(new errorHandler(500, error.message));
   }
 });
+
+
+
+
+
+
 exports.logout = asyncHandler(async (req, res, next) => {
   try {
     res.clearCookie("token");
@@ -116,6 +139,16 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
     return next(new errorHandler(500, error.message));
   }
 });
+
+
+
+
+
+
+
+
+
+
 exports.resetPassword = asyncHandler(async (req, res, next) => {
   try {
     const { token } = req.params;
@@ -149,6 +182,17 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
     return next(new errorHandler(500, error.message));
   }
 });
+
+
+
+
+
+
+
+
+
+
+
 exports.updateProfile = asyncHandler(async (req, res, next) => {
   try {
     const { name, email, phoneNumber,role ,bio, skills } = req.body;

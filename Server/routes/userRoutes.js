@@ -1,13 +1,14 @@
 const express = require('express');
 const {authenticateUser,authorizedUser} = require('../middlewares/authMidleware');
 const {registerUser,loginUser,forgotPassword,resetPassword,logout,updateProfile} = require('../controllers/authController');
-const app = express();
+const router = express.Router();
+const upload = require('../middlewares/upload');
+ 
+router.route('/register').post(upload.single("profilePhoto"),registerUser);
+router.route('/signIn').post(loginUser);
+router.route('/logout').get(logout);
+router.route('/forgot-password').post(forgotPassword);
+router.route('/reset-password/:resetToken').patch(resetPassword);
+router.route('/profile/update').put(authenticateUser,updateProfile);
 
-app.route('/register').post(registerUser);
-app.route('/signIn').post(loginUser);
-app.route('/logout').get(logout);
-app.route('/forgot-password').post(forgotPassword);
-app.route('/reset-password/:resetToken').patch(resetPassword);
-app.route('/profile/update').put(authenticateUser,updateProfile);
-
-module.exports = app;
+module.exports = router;

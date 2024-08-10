@@ -1,18 +1,38 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
+import { USER_API_END_POINT } from "../constants";
+import { toast } from 'react-hot-toast';
+
+
+
 const SignIn = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
   });
-
   const changeInputHandler = (e) => {
     return setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmitHandler = (e) => {
+  const handleSubmitHandler = async (e) => {
     e.preventDefault();
-    console.log(data);
+    try {
+      const res = await axios.post(`${USER_API_END_POINT}/signIn`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res.data.success) {
+       toast.success("loggedIn successfuly");
+       navigate("/home");
+      }
+    } catch (error) {
+      console.log(error)
+      return toast.error(error.message);
+    }
   };
 
   return (
