@@ -32,6 +32,23 @@
 
 }
 
+ .posted{
+    color: rgb(179, 177, 177);
+    font-size: 0.8rem;
+}
+.save{
+    font-size: 2rem;
+    float: right;
+}
+.job-card .job_compnay{
+   
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 20px;
+        text-align: center;
+        margin-top:10px
+}
 .job-card h3 {
     font-size: 1.5rem;
     color: #000;
