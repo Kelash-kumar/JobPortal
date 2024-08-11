@@ -1,10 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import axios from "axios";
-import { USER_API_END_POINT } from "../constants";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../redux/authSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { USER_API_END_POINT } from "../constant/constants";
 
 
 

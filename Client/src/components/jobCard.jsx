@@ -1,11 +1,9 @@
 import { CiBookmark } from "react-icons/ci";
-
-const jobCard = (props) => {
-  console.log(props);
-  const {job}=props;
+// its css is in featuresJob.css
+const jobCard = ({job}) => {
   return (
    
-      // <div className="featured-jobs">
+     
           <div  className="job-card">
             <span className="posted">2 hr ago</span>
             <span className="save">
@@ -26,8 +24,7 @@ const jobCard = (props) => {
             <br />
             <button>Details</button>
           </div>
-      // </div>
-   
+     
   );
 };
 

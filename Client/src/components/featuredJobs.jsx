@@ -1,5 +1,9 @@
-import "./featuredJobs.css";
-import JobCard from "../jobCard";
+import "./styles/featuredJobs.css";
+import JobCard from "./jobCard";
+
+
+
+
 const FeaturedJobs = () => {
   const jobs = [
     {

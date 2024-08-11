@@ -1,9 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import axios from "axios";
-import { USER_API_END_POINT } from "../constants";
-import {useDispatch,useSelector} from 'react-redux';
+import { useState } from "react";
 import { setLoading } from "../redux/authSlice";
+import {useDispatch,useSelector} from 'react-redux';
+import { Link, useNavigate } from "react-router-dom";
+import { USER_API_END_POINT } from "../constant/constants";
 
 
 const SignUp = () => {

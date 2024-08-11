@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import './jobCategories.css'; // Import the CSS file
 import { FaArrowLeft ,FaArrowRight} from "react-icons/fa";
+import './styles/jobCategories.css'; 
+
+
+
 const JobCategories = () => {
   const jobCategories = [
     "Backend Developer",

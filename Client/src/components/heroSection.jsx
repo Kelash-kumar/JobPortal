@@ -1,4 +1,4 @@
-import "./HeroSection.css"; // Import the CSS file
+import "./styles/HeroSection.css"; // Import the CSS file
 import { CiSearch } from "react-icons/ci";
 // import JobCategories from "./jobCategories";
 
