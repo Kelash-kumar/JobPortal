@@ -17,13 +17,16 @@ const filtter_jobs = [
 
 const FilterCard = () => {
   return (
-    <div>
+    <div className="filter-card">
       <h4>Filtters</h4>
       {filtter_jobs.map((item, index) => (
         <div key={index} className="filter-item">
-          <label>{item.type}</label>
+          <label className="filter_type">{item.type}</label>
           {item.Area.map((options, ind) => (
-            <div key={ind}>
+            <div 
+            key={ind}
+            className="filter-options"
+            >
               <input
                 type="radio"
                 id={`${item.type}-${options}`}

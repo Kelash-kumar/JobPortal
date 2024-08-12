@@ -22,7 +22,7 @@ const jobCard = ({job}) => {
               <span className="job_salary">{`${job.salary} LPA`}</span>
             </div>
             <br />
-            <button>Details</button>
+            <button >Details</button>
           </div>
      
   );

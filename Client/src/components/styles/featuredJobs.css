@@ -1,7 +1,7 @@
 /* FeaturedJobs.css */
 
 .featured-container {
-    background-color: #fff; /* White background */
+    background-color: #fff; 
     padding: 50px 20px;
     text-align: center;
 }
@@ -24,7 +24,7 @@
 .job-card {
     width: 300px;
     background: #f9f9f9;
-    padding: 20px;
+    padding: 10px;
     text-align: left;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
@@ -38,20 +38,24 @@
     font-size: 0.8rem;
 }
 .save{
-    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ececec;
+    border-radius: 50%;
+    font-size: 1.5rem;
     float: right;
+    padding: 3.5px;
 }
 .job-card .job_compnay{
-   
         display: flex;
         justify-content: flex-start;
         align-items: center;
         gap: 20px;
-        text-align: center;
         margin-top:10px
 }
 .job-card h3 {
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #000;
     margin: 0;
 }
@@ -80,7 +84,7 @@
     border-radius: 20px;
     background-color: #f1f1f1;
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 .job_categories .job_position{
     color: #333333;

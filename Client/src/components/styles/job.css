@@ -5,16 +5,15 @@
     display: flex;
 }
 .jobs_filter{
-    width: 15%;
+    width: 13%;
     padding-left: 10px;
     max-height: 100vh;
-    background-color: rgb(236, 234, 234);
+    background-color: rgb(241, 240, 240);
 }
 
 .jobs_container{
     width: 90%;
     max-height: 100vh;
-
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -25,9 +24,8 @@
 /* FILTER CSS */
 .filter-card {
     border-right: 1px solid #ffffff;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    padding: 20px 5px;
+    
   }
   
   .filter-card h4 {
@@ -37,13 +35,18 @@
   .filter-item {
     margin-bottom: 10px;
     padding: 5px;
+    margin: 10px 0px;
   }
   
-  
+  .filter-item .filter_type{
+    font-weight: bold;
+   }
+   
   
   .filter-options {
+    margin-top: 3px;
     display: flex;
-    flex-direction: column;
+    padding: 2px 0;
   }
   
   .filter-options input[type="radio"] {
