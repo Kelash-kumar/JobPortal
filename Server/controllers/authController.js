@@ -57,9 +57,9 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
 
 exports.loginUser = asyncHandler(async (req, res, next) => {
   try {
-    const {email,password}= req.body;
-    console.log(req.body)
-    if (!email || !password) {
+    const {email,password,role}= req.body;
+   
+    if (!email || !password|| !role) {
       return next(new errorHandler(400, "Please provide email and password"));
     }
     const user = await User.findOne({ email }).select("+password");
@@ -72,6 +72,10 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return next(new errorHandler(401, "Invalid password "));
+    }
+    
+    if(user.role!==role){
+      return next(new errorHandler(401,"Invalid role "))
     }
     res
       .status(200)
@@ -102,6 +106,8 @@ exports.logout = asyncHandler(async (req, res, next) => {
     return next(new errorHandler(500, error.message));
   }
 });
+
+
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -153,7 +159,6 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   try {
     const { token } = req.params;
     const { password } = req.body;
-    console.log(token);
     if (!token) {
       return next(new errorHandler(400, "Token is invalid"));
     }
@@ -201,7 +206,6 @@ exports.updateProfile = asyncHandler(async (req, res, next) => {
     }
 
     const skillArray = skills.split(",");
-    console.log(skillArray);
     const userId = req.user.id; //from authmiddleware
     const user = await User.findById(userId);
     if (!user) {

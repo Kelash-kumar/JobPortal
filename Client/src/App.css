@@ -5,10 +5,11 @@
   background-color: #343a40; /* Dark background color */
   color: white;
   display: flex;
-  padding: 10px 10px 0px 10px;
+  padding: 10px 20px 0px 10px;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding-bottom: 5px;
 }
 
 .navbar h1 {
@@ -45,30 +46,17 @@
   position: relative;
 }
 
-.nav-profile-popup button {
-  background-color: #ffc107;
-  color: #343a40;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.nav-profile-popup button:hover {
-  background-color: #e0a800;
-}
 
 .nav-profile-popup-details {
   display: none; /* Hidden by default */
   position: absolute;
   right: 0;
-  background-color: white;
+  z-index: 999;
+  background-color:#f4f4f4;
   color: #343a40;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   border-radius: 5px;
-  margin-top: 0.5rem;
   width: 200px;
 }
 
@@ -81,7 +69,6 @@
   gap: 5px;
 }
 .avatar{
-  /* background-color: #ccc; */
   background-color: #b33434;
   background-attachment: fixed;
   margin-bottom: 1rem;
@@ -95,10 +82,12 @@ img{
 }
 
 .user_details h4{
-  margin-bottom: -12px;
+  margin-bottom: -10px;
+  text-transform: capitalize;
+  font-size: 1.2rem;
 }
 .user_details p{
-  font-size: 13px;
+  font-size: 16px;
   color: gray;
 }
 
@@ -106,25 +95,26 @@ img{
   align-items: center;
   margin-bottom: 0.5rem;
 }
-
-.option .icon {
-  margin-right: 0.5rem;
-  color: #343a40;
+.option .option_inner{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-.option button {
-  background: none;
-  border: none;
-  font-size: 1rem;
-  text-transform: capitalize;
+.option .option_inner i {
+  font-size: 1.3rem;
   color: #343a40;
+}
+.option .option_inner a{
   cursor: pointer;
-  transition: color 0.3s ease;
+
+  text-transform: capitalize;
+}
+.option .option_inner a:hover{
+  text-decoration: underline;
 }
 
-.option button:hover {
-  color: #ffc107;
-}
 
 
 /* styles.css */
@@ -138,7 +128,7 @@ img{
   gap: 1rem; /* Space between the buttons */
 }
 
-.login_register_option button {
+.login_register_option  button {
   background-color: #555e68; /* Dark background color */
   color: white; /* Text color */
   border: none;

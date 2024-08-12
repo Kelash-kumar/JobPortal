@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { setLoading } from "../redux/authSlice";
+import { setLoading, setUser } from "../redux/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { USER_API_END_POINT } from "../constant/constants";
@@ -15,6 +15,7 @@ const SignIn = () => {
   const [data, setData] = useState({
     email: "",
     password: "",
+    role:""
   });
   const { loading } = user;
   const changeInputHandler = (e) => {
@@ -30,10 +31,11 @@ const SignIn = () => {
           "Content-Type": "application/json",
         },
       });
-
+      
       if (res.data.success) {
+        dispatch(setUser(res.data.user))
         toast.success("loggedIn successfuly");
-        navigate("/home");
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
@@ -70,6 +72,29 @@ const SignIn = () => {
             required
           />
         </div>
+        <div className="role-options">
+            <label>Select your Role:</label>
+            <label>
+              <input
+                type="radio"
+                name="role"
+                value="student"
+                checked={data.role === "student"}
+                onChange={changeInputHandler}
+              />
+              Student
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="role"
+                value="recruiter"
+                checked={data.role === "recruiter"}
+                onChange={changeInputHandler}
+              />
+              Recruiter
+            </label>
+          </div><br/>
         {loading ? <p>loading...</p> : <button type="submit">Sign In</button>}
         <br />
         <span>
