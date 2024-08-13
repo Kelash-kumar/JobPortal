@@ -8,6 +8,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Browse from "./components/browse";
 import Profile from "./components/profile";
 import { useSelector } from "react-redux";
+import UpdateProfile from "./components/updateProfile";
+
+
 function App() {
   const {user} = useSelector(state => state.auth);
   return (
@@ -18,9 +21,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/browse" element={<Browse />} />
-         { user && (
+         { user && (<>
             <Route path="user/profile" element={<Profile/>}/>
-          )}
+            <Route path="user/profile/update" element={<UpdateProfile/>}/>
+          </>)}
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>

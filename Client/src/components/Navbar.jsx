@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
-
+import { FaEdit } from "react-icons/fa";
 const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
@@ -56,6 +56,16 @@ const Navbar = () => {
                 <a className="option_profile_btn">
                   <Link to={'/user/profile'}>
                   view profile
+                  </Link>
+                  </a>
+              </div>
+              <div className="option_inner">
+                <i>
+                  <FaEdit />
+                </i>
+                <a className="option_profile_btn">
+                  <Link to={'/user/profile/update'}>
+                  Edit profile
                   </Link>
                   </a>
               </div>
