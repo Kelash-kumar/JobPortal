@@ -65,17 +65,17 @@ const {loading} = user;
     <div className="auth-container">
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmitHandler}>
-        <div className="form-group">
-          <label>Name</label>
-          <input
-            type="text"
-            placeholder="Enter your name"
-            name="name"
-            value={data.name}
-            onChange={changeInputHandler}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label>Name</label>
+            <input
+              type="text"
+              placeholder="Enter your name"
+              name="name"
+              value={data.name}
+              onChange={changeInputHandler}
+              required
+            />
+          </div>
         <div className="form-group">
           <label>Email</label>
           <input

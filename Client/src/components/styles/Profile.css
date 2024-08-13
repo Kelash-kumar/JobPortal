@@ -1,0 +1,178 @@
+.profile_section {
+  display: flex;
+  max-width: 1000px;
+  margin: 40px auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.user_info_side_bar {
+  background-color: #fff;
+  color: white;
+  padding: 20px;
+  color: black;
+  width: 250px;
+  text-align: center;
+  margin-right: 10px;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2); /* Box shadow on the right side */
+}
+
+.user-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid #fff;
+}
+
+.user_name span:first-child {
+  font-size: 22px;
+  font-weight: bold;
+  display: block;
+  color: #ffc107;
+}
+
+.user_name span:last-child {
+  font-size: 14px;
+  color: #141414;
+  margin-top: 5px;
+}
+
+.user-bio {
+  margin: 20px 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #444;
+  
+}
+
+.skills,
+.hobbies {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.skills h4,
+.hobbies h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.skills ul,
+.hobbies ul {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  /* justify-content: space-around; */
+}
+
+.skills li,
+.hobbies li {
+  margin: 5px 5px;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #f5f3f3;
+  color: rgb(119, 119, 207);
+  border-radius: 20px;
+}
+
+/* RIGHT SIDE */
+.user-details {
+  flex-grow: 1;
+  padding: 0px 20px;
+  border-radius: 0 10px 10px 0;
+}
+
+.basic_info_container {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.basic_info_container h3 {
+  font-size: 24px;
+  color: #444;
+}
+
+.basic_details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-item strong {
+  font-size: 16px;
+  color: #333;
+}
+
+.info-item span {
+  font-size: 16px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.info-item a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.info-item a:hover {
+  text-decoration: underline;
+}
+
+.experience {
+  margin-bottom: 20px;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.experience h3 {
+  font-size: 20px;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.experience ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.experience li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.experience li i {
+  margin-right: 10px;
+  font-size: 20px;
+  color: #007bff;
+}
+
+.experience li strong {
+  display: block;
+  font-size: 18px;
+  color: #333;
+}
+
+.edit{
+  position: relative;
+  top: 10px;
+  left:17rem;
+  font-size: 1.3rem;
+}
