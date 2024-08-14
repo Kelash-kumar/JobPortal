@@ -9,7 +9,6 @@ import { toast } from "react-hot-toast";
 const UserProfile = () => {
   const [profile, setProfile] = useState({
     name: "",
-    email: "",
     phoneNumber: "",
     bio: "",
     skills: [],
@@ -69,12 +68,12 @@ const UserProfile = () => {
 
     // Send form data to API
     axios
-      .post(`${USER_API_END_POINT}/profile/update`, formData)
+      .put(`${USER_API_END_POINT}/profile/update`, formData)
       .then((res) => {
         console.log(res);
       })
       .catch((err) => {
-       toast.error(err.message)
+       toast.error(err.message);
       });
   };
 
@@ -92,7 +91,7 @@ const UserProfile = () => {
             onChange={handleChange}
           />
         </div>
-        <div>
+        {/* <div>
           <label>Email:</label>
           <input
             type="email"
@@ -100,7 +99,7 @@ const UserProfile = () => {
             value={profile.email}
             onChange={handleChange}
           />
-        </div>
+        </div> */}
         <div>
           <label>Phone Number:</label>
           <input

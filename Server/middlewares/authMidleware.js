@@ -15,7 +15,7 @@ const authenticateUser = async (req, res, next) => {
       }
       //console.log(decoded.id)
       req.id=decoded.id;
-      console.log('user id at authmiddleware:'+req.id);
+      // console.log('user id at authmiddleware:'+req.id);
       next();
     } catch (err) {
       res.status(401).json({ message: "Not authorized user, token failed" });

@@ -169,35 +169,38 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.updateProfile = asyncHandler(async (req, res, next) => {
-  try {
-    const { name, phoneNumber, bio, skills = "" } = req.body;
-    console.log(req.body)
-    if(!name || !phoneNumber || ! bio || !skills){
-      return next(new errorHandler(404,"Fill all fields"))
-    }
-    const skillArray = skills.split(",");
+exports.updateProfile = [
+  upload.single("profilePhoto"),
+  asyncHandler(async (req, res, next) => {
+    try {
+      const { name, phoneNumber, bio, skills } = req.body;
+      console.log(req.body);
+      if (!name || !phoneNumber || !bio || !skills) {
+        return next(new errorHandler(404, "Fill all fields"));
+      }
+      const skillArray = skills.split(",");
 
-    const userId = req.user.id; //from middleware;
-    const user = await User.findById(userId);
+      const userId = req.user.id; //from middleware;
+      const user = await User.findById(userId);
 
-    if (!user) {
-      return next(new errorHandler(404, "User not found"));
-    }
+      if (!user) {
+        return next(new errorHandler(404, "User not found"));
+      }
 
-    user.name = name;
-    user.phoneNumber = phoneNumber;
-    user.profile.bio = bio;
-    user.profile.skill = skillArray;
-    if (req.file) {
-      user.profile.profilePhoto = req.file.path;
+      user.name = name;
+      user.phoneNumber = phoneNumber;
+      user.profile.bio = bio;
+      user.profile.skill = skillArray;
+      if (req.file) {
+        user.profile.profilePhoto = req.file.path;
+      }
+      await user.save();
+      res.status(200).json({
+        success: true,
+        message: "Profile updated successfully",
+      });
+    } catch (error) {
+      return next(new errorHandler(500, error.message));
     }
-    await user.save();
-    res.status(200).json({
-      success: true,
-      message: "Profile updated successfully",
-    });
-  } catch (error) {
-    return next(new errorHandler(500, error.message));
-  }
-});
+  })
+];
