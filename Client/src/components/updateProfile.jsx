@@ -60,7 +60,7 @@ const UserProfile = () => {
     const formData = new FormData();
     for (const key in profile) {
       if (key === "experience") {
-        formData.append(key, JSON.stringify(profile[key]));
+        // formData.append(key, JSON.stringify(profile[key]));
       } else {
         formData.append(key, profile[key]);
       }

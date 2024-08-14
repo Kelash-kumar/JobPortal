@@ -14,7 +14,7 @@ const authenticateUser = async (req, res, next) => {
         return res.status(401).json({ message: "User not found" });
       }
       //console.log(decoded.id)
-      req.id=decoded.id;
+      req.id=decoded.userId;
       // console.log('user id at authmiddleware:'+req.id);
       next();
     } catch (err) {

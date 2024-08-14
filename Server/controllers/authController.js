@@ -170,15 +170,15 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 });
 
 exports.updateProfile = [
-  upload.single("profilePhoto"),
+  upload.fields([{name:'profilePhoto',maxCount:1},{name:'resume',maxCount:1}]),
   asyncHandler(async (req, res, next) => {
     try {
       const { name, phoneNumber, bio, skills } = req.body;
-      console.log(req.body);
+      // console.log(req.body);
       if (!name || !phoneNumber || !bio || !skills) {
         return next(new errorHandler(404, "Fill all fields"));
       }
-      const skillArray = skills.split(",");
+      const skillArray = skills.split(" ");
 
       const userId = req.user.id; //from middleware;
       const user = await User.findById(userId);
@@ -191,9 +191,12 @@ exports.updateProfile = [
       user.phoneNumber = phoneNumber;
       user.profile.bio = bio;
       user.profile.skill = skillArray;
-      if (req.file) {
-        user.profile.profilePhoto = req.file.path;
+      if (req.files) {
+        user.profile.profilePhoto = req.files.profilePhoto[0].filename;
+        user.profile.resume = req.files.resume[0].filename;
+        
       }
+      
       await user.save();
       res.status(200).json({
         success: true,
