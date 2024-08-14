@@ -5,8 +5,7 @@ const asyncHandler = require("../utils/asyncHandler");
 const errorHandler = require("../utils/errorHandler");
 const generateToken = require("../utils/generateToken");
 const bcrypt = require("bcryptjs");
-// const upload = require('../middlewares/upload');
-
+const upload = require("../middlewares/upload");
 
 const sendResponseToken = (user, statusCode, res) => {
   const token = generateToken(user._id);
@@ -18,14 +17,16 @@ const sendResponseToken = (user, statusCode, res) => {
   });
 };
 
-
 exports.registerUser = asyncHandler(async (req, res, next) => {
   try {
-    const { name,email,phoneNumber,password,role} = req.body;
-    
+    const { name, email, phoneNumber, password, role } = req.body;
+
     if (!name || !email || !password || !role || !phoneNumber) {
       return next(
-        new errorHandler(400, "Please provide name, email ,phoneNumber , password and role ")
+        new errorHandler(
+          400,
+          "Please provide name, email ,phoneNumber , password and role "
+        )
       );
     }
     const user = await User.findOne({ email });
@@ -40,7 +41,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
       password: hashedPass,
       phoneNumber,
       role,
-      profilePhoto: req.file ? req.file.path : null
+      profilePhoto: req.file ? req.file.path : null,
     });
     sendResponseToken(newUser, 201, res); //token sent
   } catch (error) {
@@ -48,19 +49,14 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-
-
-
-
-
-
-
 exports.loginUser = asyncHandler(async (req, res, next) => {
   try {
-    const {email,password,role}= req.body;
-   
-    if (!email || !password|| !role) {
-      return next(new errorHandler(400, "Please provide email and password"));
+    const { email, password, role } = req.body;
+
+    if (!email || !password || !role) {
+      return next(
+        new errorHandler(400, "Please provide email ,password & role")
+      );
     }
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
@@ -73,9 +69,9 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
     if (!isMatch) {
       return next(new errorHandler(401, "Invalid password "));
     }
-    
-    if(user.role!==role){
-      return next(new errorHandler(401,"Invalid role "))
+
+    if (user.role !== role) {
+      return next(new errorHandler(401, "Invalid role "));
     }
     res
       .status(200)
@@ -93,11 +89,6 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-
-
-
-
-
 exports.logout = asyncHandler(async (req, res, next) => {
   try {
     res.clearCookie("token");
@@ -106,7 +97,6 @@ exports.logout = asyncHandler(async (req, res, next) => {
     return next(new errorHandler(500, error.message));
   }
 });
-
 
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
   try {
@@ -146,15 +136,6 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   }
 });
 
-
-
-
-
-
-
-
-
-
 exports.resetPassword = asyncHandler(async (req, res, next) => {
   try {
     const { token } = req.params;
@@ -188,36 +169,29 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   }
 });
 
-
-
-
-
-
-
-
-
-
-
 exports.updateProfile = asyncHandler(async (req, res, next) => {
   try {
-    const { name, email, phoneNumber,role ,bio, skills } = req.body;
-    if (!name || !email || !phoneNumber || !bio || !skills || !role) {
-      return next(new errorHandler(400, "Please provide all fields"));
+    const { name, phoneNumber, bio, skills = "" } = req.body;
+    console.log(req.body)
+    if(!name || !phoneNumber || ! bio || !skills){
+      return next(new errorHandler(404,"Fill all fields"))
     }
-
     const skillArray = skills.split(",");
-    const userId = req.user.id; //from authmiddleware
+
+    const userId = req.user.id; //from middleware;
     const user = await User.findById(userId);
+
     if (!user) {
       return next(new errorHandler(404, "User not found"));
     }
 
     user.name = name;
-    user.email = email;
     user.phoneNumber = phoneNumber;
-    user.role=role;
     user.profile.bio = bio;
     user.profile.skill = skillArray;
+    if (req.file) {
+      user.profile.profilePhoto = req.file.path;
+    }
     await user.save();
     res.status(200).json({
       success: true,

@@ -26,9 +26,9 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use(require("./routes/apiRoutes"));
-app.all("*", (req, res, next) => {
-  next(new errorHandler(404, `Can't find ${req.originalUrl} on this server!`));
-});
+// app.all("*", (req, res, next) => {
+//   next(new errorHandler(404, `Can't find ${req.originalUrl} on this server!`));
+// });
 
 // app.use(globalErrorHandler);
 connectDB();

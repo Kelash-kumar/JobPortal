@@ -1,12 +1,16 @@
 import { useState } from "react";
-import "./styles/updateProfile.css"; 
+import "./styles/updateProfile.css";
+import axios from "axios";
+import {USER_API_END_POINT} from "../constant/constants";
+import { toast } from "react-hot-toast";
+
+
 
 const UserProfile = () => {
   const [profile, setProfile] = useState({
     name: "",
     email: "",
     phoneNumber: "",
-    role: "student",
     bio: "",
     skills: [],
     resume: null,
@@ -45,16 +49,18 @@ const UserProfile = () => {
   const addExperience = () => {
     setProfile({
       ...profile,
-      experience: [...profile.experience, { title: "", company: "", duration: "" }],
+      experience: [
+        ...profile.experience,
+        { title: "", company: "", duration: "" },
+      ],
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Create form data
     const formData = new FormData();
     for (const key in profile) {
-      if (key === 'experience') {
+      if (key === "experience") {
         formData.append(key, JSON.stringify(profile[key]));
       } else {
         formData.append(key, profile[key]);
@@ -62,36 +68,72 @@ const UserProfile = () => {
     }
 
     // Send form data to API
-   };
+    axios
+      .post(`${USER_API_END_POINT}/profile/update`, formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+       toast.error(err.message)
+      });
+  };
 
+  
   return (
     <div className="user-profile-container">
       <h2>Update Profile</h2>
       <form className="user-profile-form" onSubmit={handleSubmit}>
         <div>
           <label>Name:</label>
-          <input type="text" name="name" value={profile.name} onChange={handleChange} required />
+          <input
+            type="text"
+            name="name"
+            value={profile.name}
+            onChange={handleChange}
+          />
         </div>
         <div>
           <label>Email:</label>
-          <input type="email" name="email" value={profile.email} onChange={handleChange} required />
+          <input
+            type="email"
+            name="email"
+            value={profile.email}
+            onChange={handleChange}
+          />
         </div>
         <div>
           <label>Phone Number:</label>
-          <input type="tel" name="phoneNumber" value={profile.phoneNumber} onChange={handleChange} />
+          <input
+            type="tel"
+            name="phoneNumber"
+            value={profile.phoneNumber}
+            onChange={handleChange}
+          />
         </div>
         <div>
           <label>Bio:</label>
-          <textarea name="bio" value={profile.bio} maxLength={130} onChange={handleChange}></textarea>
+          <textarea
+            name="bio"
+            value={profile.bio}
+            maxLength={130}
+            onChange={handleChange}
+          ></textarea>
         </div>
         <div>
           <label>Skills:</label>
-          <input type="text" name="skills" value={profile.skills.join(",")} onChange={handleChange} />
+          <input
+            type="text"
+            name="skills"
+            value={profile.skills}
+            onChange={handleChange}
+          />
         </div>
         <div>
           <label>Resume:</label>
           <input type="file" name="resume" onChange={handleFileChange} />
-          {profile.resumeOriginalName && <p className="file-upload-info">{profile.resumeOriginalName}</p>}
+          {profile.resumeOriginalName && (
+            <p className="file-upload-info">{profile.resumeOriginalName}</p>
+          )}
         </div>
         <div>
           <label>Profile Photo:</label>
@@ -124,7 +166,13 @@ const UserProfile = () => {
               />
             </div>
           ))}
-          <button type="button" className="add-experience-button" onClick={addExperience}>Add Experience</button>
+          <button
+            type="button"
+            className="add-experience-button"
+            onClick={addExperience}
+          >
+            Add Experience
+          </button>
         </div>
         <button type="submit">Update Profile</button>
       </form>
