@@ -1,178 +1,103 @@
-.profile_section {
-  display: flex;
-  max-width: 1000px;
-  margin: 40px auto;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.user_info_side_bar {
+/* Profile.css */
+.profile-section {
   background-color: #fff;
-  color: white;
-  padding: 20px;
-  color: black;
-  width: 250px;
-  text-align: center;
-  margin-right: 10px;
-  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2); /* Box shadow on the right side */
+  padding: 50px;
+  border-radius: 15px;
+  max-width:900px;
+  margin: 50px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
 }
 
-.user-avatar {
-  width: 120px;
-  height: 120px;
+.profile-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
+  border: 3px solid #ddd;
   object-fit: cover;
-  margin-bottom: 15px;
-  border: 3px solid #fff;
 }
 
-.user_name span:first-child {
-  font-size: 22px;
-  font-weight: bold;
-  display: block;
-  color: #ffc107;
+.profile-intro {
+  flex-grow: 1;
 }
 
-.user_name span:last-child {
-  font-size: 14px;
-  color: #141414;
+.profile-name {
+  font-size: 1.8em;
+  font-weight: 700;
+  color: #333;
+}
+
+.profile-bio {
+  font-size: 0.9em;
+  color: #777;
   margin-top: 5px;
 }
 
-.user-bio {
-  margin: 20px 0;
-  font-size: 16px;
-  line-height: 1.5;
-  color: #444;
-  
+.profile-icon {
+  font-size: 2em;
+  color: #777;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.skills,
-.hobbies {
-  margin-top: 20px;
-  text-align: left;
+
+
+.profile-user-details {
+  display: flex;
+  align-items: center;
+  /* margin-bottom: 10px; */
+  font-size: 1em;
+  color: #555;
+  line-height: 0px;
 }
 
-.skills h4,
-.hobbies h4 {
-  font-size: 18px;
+.profile-user-details i {
+  font-size: 1em;
+  margin-right: 10px;
+  color: #777;
+}
+
+
+
+.skills h4 {
+  font-size: 1.2em;
+  color: #333;
   margin-bottom: 10px;
 }
 
-.skills ul,
-.hobbies ul {
-  list-style: none;
-  padding-left: 0;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  /* justify-content: space-around; */
-}
-
-.skills li,
-.hobbies li {
-  margin: 5px 5px;
-  padding: 8px;
-  border-radius: 5px;
-  font-size: 14px;
+.skills span {
+  display: inline-block;
+  background-color: #9e9e9e;
   color: #fff;
-  background-color: #f5f3f3;
-  color: rgb(119, 119, 207);
+  padding: 5px 15px;
   border-radius: 20px;
+  margin-right: 5px;
+  /* margin: 5px; */
+  font-size: 1em;
 }
 
-/* RIGHT SIDE */
-.user-details {
-  flex-grow: 1;
-  padding: 0px 20px;
-  border-radius: 0 10px 10px 0;
-}
 
-.basic_info_container {
-  margin-bottom: 30px;
-  padding: 20px;
-  background-color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
 
-.basic_info_container h3 {
-  font-size: 24px;
-  color: #444;
-}
-
-.basic_details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-}
-
-.info-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.info-item strong {
-  font-size: 16px;
+.resume h4 {
+  font-size: 1.2em;
   color: #333;
+  margin-bottom: 10px;
 }
 
-.info-item span {
-  font-size: 16px;
-  color: #555;
-  margin-top: 5px;
-}
-
-.info-item a {
-  color: #007bff;
+.resume a {
   text-decoration: none;
+  color: #777;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-.info-item a:hover {
-  text-decoration: underline;
-}
-
-.experience {
-  margin-bottom: 20px;
-  background-color: white;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.experience h3 {
-  font-size: 20px;
-  padding-bottom: 5px;
-  margin-bottom: 15px;
-  color: #444;
-}
-
-.experience ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.experience li {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.experience li i {
-  margin-right: 10px;
-  font-size: 20px;
-  color: #007bff;
-}
-
-.experience li strong {
-  display: block;
-  font-size: 18px;
-  color: #333;
-}
-
-.edit{
-  position: relative;
-  top: 10px;
-  left:17rem;
-  font-size: 1.3rem;
+.resume a:hover {
+  color: #0056b3;
 }

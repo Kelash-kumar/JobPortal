@@ -1,96 +1,92 @@
 import "./styles/Profile.css";
+import { MdOutlineAlternateEmail } from "react-icons/md";
+import { FaUserEdit } from "react-icons/fa";
+import { FaPhone } from "react-icons/fa6";
+import AppliedJobTable from "./AppliedJobTable";
 
 const Profile = () => {
+  const skills = ["HTML", "CSS", "JS", "REACTJS"];
+
+  const appliedJobs = [
+    {
+      date: '2024-08-01',
+      role: 'Frontend Developer',
+      company: 'Tech Innovators',
+      status: 'Applied'
+    },
+    {
+      date: '2024-07-25',
+      role: 'Backend Developer',
+      company: 'Code Solutions',
+      status: 'Review'
+    },
+    {
+      date: '2024-07-18',
+      role: 'Full Stack Developer',
+      company: 'Web Experts',
+      status: 'Rejected'
+    },
+    {
+      date: '2024-07-10',
+      role: 'UI/UX Designer',
+      company: 'Creative Minds',
+      status: 'Offered'
+    }
+  ];
+
+
+
   return (
-    <div className="profile_section">
-      <div className="user_info_side_bar">
-        <img
-          src="\src\assets\avtar.jpg"
-          alt="user-avatar"
-          className="user-avatar"
-        />
-        <div className="user_name">
-          <span>John Doe</span>
-          <span>@johndoe</span>
+    <>
+      <div className="profile-section">
+        <div className="profile-container">
+          <img
+            src="\src\assets\avtar.jpg"
+            alt="avatar"
+            className="profile-avatar"
+          />
+          <div className="profile-intro">
+            <span className="profile-name">John Doe</span>
+            <p className="profile-bio">
+              Software Engineer at XYZ Company. Passionate about coding and
+              coffee.
+            </p>
+          </div>
+          <i className="profile-icon">
+            <FaUserEdit />
+          </i>
         </div>
-        <p className="user-bio">
-          Passionate developer with a love for building web applications and
-          exploring new technologies.
-        </p>
+
+        {/* User More Details */}
+        <div className="profile-user-details">
+          <i>
+            <MdOutlineAlternateEmail />
+          </i>
+          <p>email</p>
+        </div>
+        <div className="profile-user-details">
+          <i>
+            <FaPhone />
+          </i>
+          <p>+92 36734837</p>
+        </div>
         <div className="skills">
-          <h4>Skills</h4>
-          <ul className="ul">
-            <li>React</li>
-            <li>Node.js</li>
-            <li>JavaScript</li>
-            <li>CSS</li>
-            <li>HTML</li>
-          </ul>
+          <h4>skills </h4>
+          {skills.map((skill, index) => (
+            <span key={index}>{skill}</span>
+          ))}
         </div>
-        <div className="hobbies">
-          <h4>Hobbies</h4>
-          <ul className="ul">
-            <li>Coding</li>
-            <li>Music</li>
-            <li>Traveling</li>
-            <li>Gaming</li>
-          </ul>
+        <div className="resume">
+          <h4>Resume</h4>
+          <a href="#">resume</a>
         </div>
+        {/* Experience Table Component can go here */}
       </div>
-
-      <div className="user-details">
-        <div className="basic_info_container">
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <h3>Basic Info</h3>
-          </div>
-
-          <div className="basic_details">
-            <div className="info-item">
-              <strong>Full Name:</strong>
-              <span>John Doe</span>
-            </div>
-            <div className="info-item">
-              <strong>Email:</strong>
-              <span>johndoe@example.com</span>
-            </div>
-            <div className="info-item">
-              <strong>Location:</strong>
-              <span>San Francisco, CA</span>
-            </div>
-            <div className="info-item">
-              <strong>Phone:</strong>
-              <span>(123) 456-7890</span>
-            </div>
-            <div className="info-item">
-              <strong>Education:</strong>
-              <span>Bachelor of Science in Computer Science</span>
-            </div>
-            <div className="info-item">
-              <strong>Website:</strong>
-              <span>
-                <a href="https://johndoe.com">johndoe.com</a>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="experience">
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <h3>Experience</h3>
-          </div>
-          <ul>
-            <li>
-              <i>icon</i>
-              <strong>Frontend Developer</strong> at XYZ Corp (2018-2020)
-            </li>
-            <li>
-              <i>icon</i>
-              <strong>Backend Developer</strong> at ABC Inc (2020-2023)
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+      {/* Applied Jobs */}
+      <AppliedJobTable
+      jobs={appliedJobs}
+      />
+    </>
   );
 };
 

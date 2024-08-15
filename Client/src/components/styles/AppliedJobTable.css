@@ -1,0 +1,62 @@
+/* AppliedJobs.css */
+.applied-jobs-section {
+    background-color: #fff;
+    padding: 50px;
+    border-radius: 15px;
+    max-width:900px;
+    margin: 50px auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .applied-jobs-title {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .applied-jobs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .applied-jobs-table th,
+  .applied-jobs-table td {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .applied-jobs-table th {
+    background-color: #f4f7f9;
+    color: #555;
+    font-weight: 600;
+  }
+  
+  .applied-jobs-table td.status {
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 8px;
+  }
+  
+  .applied-jobs-table td.status.applied {
+    background-color: #ffecb3;
+    color: #ff9800;
+  }
+  
+  .applied-jobs-table td.status.review {
+    background-color: #bbdefb;
+    color: #1976d2;
+  }
+  
+  .applied-jobs-table td.status.rejected {
+    background-color: #ffcdd2;
+    color: #d32f2f;
+  }
+  
+  .applied-jobs-table td.status.offered {
+    background-color: #c8e6c9;
+    color: #388e3c;
+  }
+  

@@ -31,8 +31,8 @@ const SignIn = () => {
           "Content-Type": "application/json",
         },
       });
-      
       if (res.data.success) {
+        localStorage.setItem("token",res.data.token);
         dispatch(setUser(res.data.user))
         toast.success("loggedIn successfuly");
         navigate("/");

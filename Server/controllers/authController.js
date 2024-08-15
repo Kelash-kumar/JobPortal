@@ -82,6 +82,7 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
       })
       .json({
         success: true,
+       token:generateToken(user._id),
         user,
       });
   } catch (error) {
