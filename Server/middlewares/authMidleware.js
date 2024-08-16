@@ -4,11 +4,13 @@ const jwt = require("jsonwebtoken");
 const authenticateUser = async (req, res, next) => {
   let token;
 
-  if (req.cookies.token) {
+  if (req.cookies.token || req.headers.authorizaton?.startsWith('Bearer')) {
     try {
-      token = req.cookies.token;
+      token = req.cookies.token || req.headers.authorizaton.split(' ')[1];
+      // console.log("===>",token)
+      // toekn is being verfuying:
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+      // finding user based on decoded token:
       req.user = await User.findById(decoded.id).select("-password");
       if (!req.user) {
         return res.status(401).json({ message: "User not found" });

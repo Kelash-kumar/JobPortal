@@ -5,10 +5,12 @@ import { FaPhone } from "react-icons/fa6";
 import AppliedJobTable from "./AppliedJobTable";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-
+import axios from "axios";
+import { USER_API_END_POINT } from "../constant/constants";
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
-
+  const token = localStorage.getItem("token");
+  console.log(token)
   const appliedJobs = [
     {
       date: "2024-08-01",
@@ -41,7 +43,7 @@ const Profile = () => {
     name: user.name,
     phoneNumber: user.phoneNumber,
     bio: user.profile.bio,
-    skill: user.profile.skill.join(", "), 
+    skill: user.profile.skill.join(','),
     profilePhoto: user.profile.profilePhoto,
     resume: user.profile.resume,
   });
@@ -61,7 +63,7 @@ const Profile = () => {
     const file = e.target.files[0];
     setInputData({
       ...inputData,
-      profilePhoto: URL.createObjectURL(file), // Temporary URL for preview
+      profilePhoto: file,
     });
   };
 
@@ -69,13 +71,42 @@ const Profile = () => {
     const file = e.target.files[0];
     setInputData({
       ...inputData,
-      resume: file.name,
+      resume: file,
     });
   };
 
-  const handleSave = () => {
-    console.log(inputData);
-    setEditProfile(false);
+  const handleSave = async () => {
+    try {
+      const formData = new FormData();
+      for (const key in inputData) {
+        if (key === "profilePhoto" || key === "resume") {
+          formData.append(
+            key,
+           inputData[key]
+          );
+        }
+       else {
+          formData.append(key, inputData[key]);
+        }
+      }
+      const res = await axios.post(
+        `${USER_API_END_POINT}/profile/update`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "content-type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+      if (res.data) {
+        console.log(res.data);
+        setEditProfile(false);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (
@@ -83,8 +114,8 @@ const Profile = () => {
       <div className="profile-section">
         <div className="profile-container">
           <img
-            src={ "/src/assets/avtar.jpg"}
-            alt='avtar'
+            src={"/src/assets/avtar.jpg"}
+            alt="avtar"
             className="profile-avatar"
           />
           <div className="profile-intro">
@@ -118,7 +149,7 @@ const Profile = () => {
         <div className="resume">
           <h4>Resume</h4>
           <a href="#" target="_blank">
-            {inputData.resume}
+            {user.profile.resume}
           </a>
         </div>
       </div>
@@ -168,10 +199,19 @@ const Profile = () => {
           </label>
           <label>
             Profile Photo:
-            <input type="file" onChange={handleProfilePhotoChange} />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleProfilePhotoChange}
+            />
           </label>
           <label>Resume:</label>
-          <input type="file" name="resume" onChange={handleFileChange} />
+          <input
+            type="file"
+            name="resume"
+            accept="application/pdf"
+            onChange={handleFileChange}
+          />
         </div>
         <div className="modal-actions">
           <button onClick={handleSave}>Save</button>

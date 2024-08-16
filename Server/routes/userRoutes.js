@@ -9,6 +9,6 @@ router.route('/signIn').post(loginUser);
 router.route('/logout').get(logout);
 router.route('/forgot-password').post(forgotPassword);
 router.route('/reset-password/:resetToken').patch(resetPassword);
-router.route('/profile/update').put(authenticateUser,updateProfile);
+router.route('/profile/update').post(authenticateUser,updateProfile);
 
 module.exports = router;

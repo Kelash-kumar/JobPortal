@@ -174,14 +174,18 @@ exports.updateProfile = [
   upload.fields([{name:'profilePhoto',maxCount:1},{name:'resume',maxCount:1}]),
   asyncHandler(async (req, res, next) => {
     try {
-      const { name, phoneNumber, bio, skills } = req.body;
-      // console.log(req.body);
-      if (!name || !phoneNumber || !bio || !skills) {
+      const formData = Object.assign({},req.body);
+      const { name, phoneNumber, bio, skill,profilePhoto,resume } = formData;
+      // console.log(name,phoneNumber,bio,skill,profilePhoto,resume);
+
+
+      if (!name || !phoneNumber || !bio || !skill) {
         return next(new errorHandler(404, "Fill all fields"));
       }
-      const skillArray = skills.split(" ");
+      const skillArray = skill.split(" ");
 
       const userId = req.user.id; //from middleware;
+
       const user = await User.findById(userId);
 
       if (!user) {
