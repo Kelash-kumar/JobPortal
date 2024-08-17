@@ -10,7 +10,7 @@ import { USER_API_END_POINT } from "../constant/constants";
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
   const token = localStorage.getItem("token");
-  console.log(token)
+
   const appliedJobs = [
     {
       date: "2024-08-01",
