@@ -82,7 +82,6 @@
   padding: 5px 15px;
   border-radius: 20px;
   margin-right: 5px;
-  /* margin: 5px; */
   font-size: 1em;
 }
 
@@ -128,7 +127,7 @@
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  width: 400px;
+  width: 800px;
   max-width: 90%;
   display: none;
   z-index: 1001;
@@ -153,7 +152,7 @@
 .modal-actions button {
   padding: 8px 12px;
   border: none;
-  background-color: #007bff;
+  background-color: #ffc107;
   color: white;
   border-radius: 5px;
   cursor: pointer;
@@ -167,13 +166,15 @@
   opacity: 0.8;
 }
 
-label {
+.update-profile-label {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
-}
 
+}
+.update-profile-label
 input[type="text"],
+input[type="tel"],
 input[type="file"],
 textarea {
   padding: 8px;

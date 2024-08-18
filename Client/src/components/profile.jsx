@@ -155,7 +155,7 @@ const Profile = () => {
       {/** Update profile */}
       <div className={`modal ${editProfile ? "show" : ""}`}>
         <div className="modal-content">
-          <label>
+          <label className="update-profile-label">
             Name:
             <input
               type="text"
@@ -165,7 +165,7 @@ const Profile = () => {
               onChange={handleInputChange}
             />
           </label>
-          <label>
+          <label className="update-profile-label">
             Phone:
             <input
               type="tel"
@@ -174,7 +174,7 @@ const Profile = () => {
               onChange={handleInputChange}
             />
           </label>
-          <label>
+          <label className="update-profile-label">
             Bio:
             <textarea
               name="bio"
@@ -183,7 +183,7 @@ const Profile = () => {
               onChange={handleInputChange}
             ></textarea>
           </label>
-          <label>
+          <label className="update-profile-label">
             Skills:
             <input
               type="text"
@@ -192,7 +192,7 @@ const Profile = () => {
               onChange={handleInputChange}
             />
           </label>
-          <label>
+          <label className="update-profile-label">
             Profile Photo:
             <input
               type="file"
@@ -201,7 +201,7 @@ const Profile = () => {
               onChange={handleProfilePhotoChange}
             />
           </label>
-          <label>Resume:</label>
+          <label className="update-profile-label">Resume:</label>
           <input
             type="file"
             name="resume"

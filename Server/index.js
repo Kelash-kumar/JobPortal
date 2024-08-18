@@ -27,13 +27,22 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use(require("./routes/apiRoutes"));
-// app.all("*", (req, res, next) => {
-//   next(new errorHandler(404, `Can't find ${req.originalUrl} on this server!`));
-// });
+app.all("*", (req, res, next) => {
+  next(new errorHandler(404, `Can't find ${req.originalUrl} on this server!`));
+});
 
 // app.use(globalErrorHandler);
 connectDB();
-
+// use this for error message
+app.use((err,req,res,next)=>{
+  err.statusCode= err.statusCode || 500;
+  err.status = err.status || 'error';
+  res.status(err.statusCode).json({
+    statusCode:err.statusCode,
+    message:err.message
+  });
+  next();
+})
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });

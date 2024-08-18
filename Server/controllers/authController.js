@@ -6,6 +6,7 @@ const errorHandler = require("../utils/errorHandler");
 const generateToken = require("../utils/generateToken");
 const bcrypt = require("bcryptjs");
 const upload = require("../middlewares/upload");
+const { type } = require("os");
 
 const sendResponseToken = (user, statusCode, res) => {
   const token = generateToken(user._id);
@@ -71,8 +72,7 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
     }
 
     if (user.role !== role) {
-      res.status(404).json({message:"Invalid user Role"})
-      // return next(new errorHandler(401, "Invalid role "));
+      return next(new errorHandler(401, "UnAthorized! Not valid Role  "));
     }
     const token = generateToken(user._id);
     res
@@ -191,11 +191,13 @@ exports.updateProfile = [
       if (!user) {
         return next(new errorHandler(404, "User not found"));
       }
-      if (req.files) {
-        user.profile.profilePhoto = req.files.profilePhoto[0].filename;
-        user.profile.resume = req.files.resume[0].filename;
-        user.profile.resumeOriginalName = req.files.resume[0].originalname;
-
+      if (Object.entries(req.files).length != 0 && req.files) {
+        if (req.files.profilePhoto != undefined)
+          user.profile.profilePhoto = req.files.profilePhoto[0].filename;
+        if (req.files.resume != undefined) {
+          user.profile.resume = req.files.resume[0].filename;
+          user.profile.resumeOriginalName = req.files.resume[0].originalname;
+        }
       }
       user.name = name;
       user.phoneNumber = phoneNumber;

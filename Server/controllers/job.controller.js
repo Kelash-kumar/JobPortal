@@ -76,7 +76,7 @@ exports.getAllJobs = asyncHandler(async (req, res, next) => {
         { description: { $regex: keyword, $options: "i" } },
       ],
     };
-    const jobs = await Job.find(query);
+    const jobs = await Job.find(query).populate('company');
     if(!jobs){
       return next(new errorHandler(404,'No jobs availabe '));
     }
