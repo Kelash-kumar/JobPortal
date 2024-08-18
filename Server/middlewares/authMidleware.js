@@ -4,29 +4,31 @@ const jwt = require("jsonwebtoken");
 const authenticateUser = async (req, res, next) => {
   let token;
 
-  if (req.cookies.token || req.headers.authorizaton?.startsWith('Bearer')) {
+  if (req.cookies.token || req.headers.authorization?.startsWith('Bearer')) {  // Corrected typo here
     try {
-      token = req.cookies.token || req.headers.authorizaton.split(' ')[1];
-      // console.log("===>",token)
-      // toekn is being verfuying:
+      token = req.cookies.token || req.headers.authorization.split(' ')[1];  // Corrected typo here
+
+      // Verify the token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      // finding user based on decoded token:
+
+      // Find the user by ID in the decoded token
       req.user = await User.findById(decoded.id).select("-password");
       if (!req.user) {
         return res.status(401).json({ message: "User not found" });
       }
-      //console.log(decoded.id)
-      req.id=decoded.userId;
-      // console.log('user id at authmiddleware:'+req.id);
+
+      req.id = decoded.id;
+      // console.log('User ID at authMiddleware:', req.id);
+
       next();
     } catch (err) {
-      res.status(401).json({ message: "Not authorized user, token failed" });
+      res.status(401).json({ message: "Not authorized, token failed" });
     }
   } else {
-    res.status(401);
-    throw new Error('not authorized ,no token!')
+    res.status(401).json({ message: 'Not authorized, no token!' });
   }
 };
+
 
 
 //midddleware to check if user is admin

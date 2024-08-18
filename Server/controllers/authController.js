@@ -71,18 +71,20 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
     }
 
     if (user.role !== role) {
-      return next(new errorHandler(401, "Invalid role "));
+      res.status(404).json({message:"Invalid user Role"})
+      // return next(new errorHandler(401, "Invalid role "));
     }
+    const token = generateToken(user._id);
     res
       .status(200)
-      .cookie("token", generateToken(user._id), {
+      .cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        // secure: process.env.NODE_ENV === "production",
         sameSite: "none",
       })
       .json({
         success: true,
-       token:generateToken(user._id),
+        token,
         user,
       });
   } catch (error) {
@@ -171,18 +173,16 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 });
 
 exports.updateProfile = [
-  upload.fields([{name:'profilePhoto',maxCount:1},{name:'resume',maxCount:1}]),
+  upload.fields([{ name: "profilePhoto" }, { name: "resume" }]),
   asyncHandler(async (req, res, next) => {
     try {
-      const formData = Object.assign({},req.body);
-      const { name, phoneNumber, bio, skill,profilePhoto,resume } = formData;
-      // console.log(name,phoneNumber,bio,skill,profilePhoto,resume);
+      const formData = Object.assign({}, req.body);
+      const { name, phoneNumber, bio, skills } = formData;
 
-
-      if (!name || !phoneNumber || !bio || !skill) {
+      if (!name || !phoneNumber || !bio || !skills) {
         return next(new errorHandler(404, "Fill all fields"));
       }
-      const skillArray = skill.split(" ");
+      const skillsArray = skills.split(",");
 
       const userId = req.user.id; //from middleware;
 
@@ -191,24 +191,25 @@ exports.updateProfile = [
       if (!user) {
         return next(new errorHandler(404, "User not found"));
       }
-
-      user.name = name;
-      user.phoneNumber = phoneNumber;
-      user.profile.bio = bio;
-      user.profile.skill = skillArray;
       if (req.files) {
         user.profile.profilePhoto = req.files.profilePhoto[0].filename;
         user.profile.resume = req.files.resume[0].filename;
-        
+        user.profile.resumeOriginalName = req.files.resume[0].originalname;
+
       }
-      
+      user.name = name;
+      user.phoneNumber = phoneNumber;
+      user.profile.bio = bio;
+      user.profile.skills = skillsArray;
+
       await user.save();
       res.status(200).json({
         success: true,
         message: "Profile updated successfully",
+        user,
       });
     } catch (error) {
       return next(new errorHandler(500, error.message));
     }
-  })
+  }),
 ];

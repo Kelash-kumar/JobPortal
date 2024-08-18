@@ -7,10 +7,13 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { USER_API_END_POINT } from "../constant/constants";
+import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
+import { setUser } from "../redux/authSlice";
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
   const token = localStorage.getItem("token");
-
+  const dispatch = useDispatch();
   const appliedJobs = [
     {
       date: "2024-08-01",
@@ -43,9 +46,9 @@ const Profile = () => {
     name: user.name,
     phoneNumber: user.phoneNumber,
     bio: user.profile.bio,
-    skill: user.profile.skill.join(','),
-    profilePhoto: user.profile.profilePhoto,
-    resume: user.profile.resume,
+    skills: user.profile.skills,
+    profilePhoto: null,
+    resume: null,
   });
 
   const handleEditProfile = () => {
@@ -79,17 +82,9 @@ const Profile = () => {
     try {
       const formData = new FormData();
       for (const key in inputData) {
-        if (key === "profilePhoto" || key === "resume") {
-          formData.append(
-            key,
-           inputData[key]
-          );
-        }
-       else {
-          formData.append(key, inputData[key]);
-        }
+        formData.append(key, inputData[key]);
       }
-      const res = await axios.post(
+      const res = await axios.put(
         `${USER_API_END_POINT}/profile/update`,
         formData,
         {
@@ -101,11 +96,12 @@ const Profile = () => {
         }
       );
       if (res.data) {
-        console.log(res.data);
+        dispatch(setUser(res.data.user));
         setEditProfile(false);
+        toast.success(res.data.message);
       }
     } catch (error) {
-      console.error(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -114,7 +110,7 @@ const Profile = () => {
       <div className="profile-section">
         <div className="profile-container">
           <img
-            src={"/src/assets/avtar.jpg"}
+            src='/src/assets/avtar.jpg'
             alt="avtar"
             className="profile-avatar"
           />
@@ -142,15 +138,15 @@ const Profile = () => {
         </div>
         <div className="skills">
           <h4>Skills</h4>
-          {user.profile.skill.map((skill, index) => (
+          {user.profile.skills.map((skill, index) => (
             <span key={index}>{skill}</span>
           ))}
         </div>
         <div className="resume">
           <h4>Resume</h4>
-          <a href="#" target="_blank">
-            {user.profile.resume}
-          </a>
+           <span>
+            {user.profile.resumeOriginalName}
+           </span>
         </div>
       </div>
       {/* Applied Jobs */}
@@ -191,9 +187,8 @@ const Profile = () => {
             Skills:
             <input
               type="text"
-              name="skill"
-              id="skill"
-              value={inputData.skill}
+              name="skills"
+              value={inputData.skills}
               onChange={handleInputChange}
             />
           </label>
@@ -201,6 +196,7 @@ const Profile = () => {
             Profile Photo:
             <input
               type="file"
+              name="profilePhoto"
               accept="image/*"
               onChange={handleProfilePhotoChange}
             />

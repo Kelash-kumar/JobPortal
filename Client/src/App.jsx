@@ -10,7 +10,6 @@ import Profile from "./components/profile";
 import { useSelector } from "react-redux";
 import UpdateProfile from "./components/updateProfile";
 
-
 function App() {
   const {user} = useSelector(state => state.auth);
   return (

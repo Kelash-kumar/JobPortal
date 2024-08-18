@@ -38,8 +38,7 @@ const SignIn = () => {
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
-      return toast.error(error.message);
+      return toast.error(error.response.data.message);
     } finally {
       dispatch(setLoading(false));
     }
