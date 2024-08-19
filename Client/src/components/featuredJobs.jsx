@@ -48,7 +48,7 @@ const FeaturedJobs = ({jobs}) => {
       <div className="featured-jobs ">
       {
       // eslint-disable-next-line react/prop-types
-      jobs.map((job) => (
+     jobs.length >0 && jobs.slice(0,6).map((job) => (
           <JobCard key={job._id} job={job} />
         ))}
         </div>;
