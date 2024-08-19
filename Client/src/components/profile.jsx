@@ -42,11 +42,12 @@ const Profile = () => {
   ];
 
   const [editProfile, setEditProfile] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [inputData, setInputData] = useState({
-    name: user.name,
-    phoneNumber: user.phoneNumber,
-    bio: user.profile.bio,
-    skills: user.profile.skills,
+    name: user?.name,
+    phoneNumber: user?.phoneNumber,
+    bio: user.profile?.bio,
+    skills: user?.profile?.skills,
     profilePhoto: null,
     resume: null,
   });
@@ -80,6 +81,7 @@ const Profile = () => {
 
   const handleSave = async () => {
     try {
+      setLoading(true);
       const formData = new FormData();
       for (const key in inputData) {
         formData.append(key, inputData[key]);
@@ -101,7 +103,9 @@ const Profile = () => {
         toast.success(res.data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response.data.message);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -110,7 +114,7 @@ const Profile = () => {
       <div className="profile-section">
         <div className="profile-container">
           <img
-            src='/src/assets/avtar.jpg'
+            src={user?.profile?.profilePhoto || '/src/assets/avtar.jpg'}
             alt="avtar"
             className="profile-avatar"
           />
@@ -134,19 +138,18 @@ const Profile = () => {
           <i>
             <FaPhone />
           </i>
-          <p>{user.phoneNumber}</p>
+          <p>+92 {user.phoneNumber}</p>
         </div>
         <div className="skills">
           <h4>Skills</h4>
-          {user.profile.skills.map((skill, index) => (
+          {user.profile.skills.length<=0?(<span>NAN</span>):
+          user.profile.skills.map((skill, index) => (
             <span key={index}>{skill}</span>
           ))}
         </div>
         <div className="resume">
           <h4>Resume</h4>
-           <span>
-            {user.profile.resumeOriginalName}
-           </span>
+          <a target="_blank" href={user.profile.resume}>{user.profile.resumeOriginalName}</a>
         </div>
       </div>
       {/* Applied Jobs */}
@@ -210,8 +213,13 @@ const Profile = () => {
           />
         </div>
         <div className="modal-actions">
-          <button onClick={handleSave}>Save</button>
-          <button onClick={handleEditProfile}>Close</button>
+          {
+            loading?<button>Please wait...</button>:(<>
+            <button onClick={handleSave}>Save</button>
+            <button onClick={handleEditProfile}>Close</button>
+            
+            </>)
+          }
         </div>
       </div>
       <div

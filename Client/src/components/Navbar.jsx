@@ -1,11 +1,29 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { FaEdit } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-hot-toast";
+import { USER_API_END_POINT } from "../constant/constants";
+import axios from "axios";
+import {setUser} from '../redux/authSlice'
 const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  // const user=true;
+
+  const dispatch = useDispatch();
+  
+  const handleLogout = async () => {
+    try {
+      const res = await axios.get(`${USER_API_END_POINT}/logout`);
+      if (res.data) {
+        dispatch(setUser(null));
+        toast.success("Logout successfully");
+        navigate('/')
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <div className="navbar-container">
       <div className="navbar">
@@ -34,13 +52,19 @@ const Navbar = () => {
       </div>
       {user ? (
         <div className="nav-profile-popup">
-          <div className="avtar" >
-            <img src="src/assets/avtar.jpg" alt="user-profile" />
+          <div className="avtar">
+            <img
+              src={user?.profile?.profilePhoto || "/src/assets/avtar.jpg"}
+              alt="user-profile"
+            />
           </div>
           <div className="nav-profile-popup-details">
             <div className="user_info_container">
               <div className="avtar">
-                <img src="src/assets/avtar.jpg" alt="user-profile" />
+                <img
+                  src={user?.profile?.profilePhoto || "/src/assets/avtar.jpg"}
+                  alt="user-profile"
+                />
               </div>
               <div className="user_details">
                 <h4>{user.name}</h4>
@@ -54,12 +78,10 @@ const Navbar = () => {
                   <FaUser />
                 </i>
                 <a className="option_profile_btn">
-                  <Link to={'/user/profile'}>
-                  view profile
-                  </Link>
-                  </a>
+                  <Link to={"/user/profile"}>view profile</Link>
+                </a>
               </div>
-              <div className="option_inner">
+              {/* <div className="option_inner">
                 <i>
                   <FaEdit />
                 </i>
@@ -68,13 +90,15 @@ const Navbar = () => {
                   Edit profile
                   </Link>
                   </a>
-              </div>
+              </div> */}
               <div className="option_inner">
                 <i>
                   <FaSignOutAlt />
                 </i>
                 <a>
-                  <Link to='/logout'>Logout</Link>
+                  <Link to="/logout" onClick={handleLogout}>
+                    Logout
+                  </Link>
                 </a>
               </div>
             </div>
