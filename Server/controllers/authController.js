@@ -222,7 +222,6 @@ exports.updateProfile = [
       if (skillsArray)  user.profile.skills = skillsArray;
       if (uploadedProfilePhotoUrl)user.profile.profilePhoto = uploadedProfilePhotoUrl;
       if (uploadedResumeURI){ 
-       
         user.profile.resume=uploadedResumeURI;
         user.profile.resumeOriginalName=resume.originalname;
       }
@@ -235,7 +234,6 @@ exports.updateProfile = [
       });
 
     } catch (error) {
-      console.log(error)
       return next(new errorHandler(500, error.message));
     }
   }),
