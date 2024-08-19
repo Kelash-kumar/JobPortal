@@ -9,6 +9,7 @@ import Browse from "./components/browse";
 import Profile from "./components/profile";
 import { useSelector } from "react-redux";
 import UpdateProfile from "./components/updateProfile";
+import JobDescription from "./components/jobDescription";
 
 function App() {
   const {user} = useSelector(state => state.auth);
@@ -23,6 +24,7 @@ function App() {
          { user && (<>
             <Route path="user/profile" element={<Profile/>}/>
             <Route path="user/profile/update" element={<UpdateProfile/>}/>
+            <Route path="/:id" element={<JobDescription/>}/>
           </>)}
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
