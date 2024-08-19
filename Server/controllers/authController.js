@@ -6,7 +6,8 @@ const errorHandler = require("../utils/errorHandler");
 const generateToken = require("../utils/generateToken");
 const bcrypt = require("bcryptjs");
 const upload = require("../middlewares/upload");
-const { type } = require("os");
+const cloudinary = require("cloudinary").v2;
+const { getDataUriParser } = require("../utils/getDatauri");
 
 const sendResponseToken = (user, statusCode, res) => {
   const token = generateToken(user._id);
@@ -176,42 +177,114 @@ exports.updateProfile = [
   upload.fields([{ name: "profilePhoto" }, { name: "resume" }]),
   asyncHandler(async (req, res, next) => {
     try {
+      // getting all field form user;
       const formData = Object.assign({}, req.body);
       const { name, phoneNumber, bio, skills } = formData;
+  
 
-      if (!name || !phoneNumber || !bio || !skills) {
-        return next(new errorHandler(404, "Fill all fields"));
+     
+      // getting files profilePhoto and resume;
+      const profilePhoto = req.files["profilePhoto"] ? req.files["profilePhoto"][0]: null;
+      const resume = req.files["resume"] ? req.files["resume"][0] : null;
+      let uploadedProfilePhotoUrl = null;
+      let uploadedResumeURI = null;
+
+      // Handling the ProfilePhoto upload
+      if (profilePhoto) {
+        const profilePhotoDataURI = getDataUriParser(profilePhoto);
+        
+        const uploadProfilePhoto = await cloudinary.uploader.upload(
+          profilePhotoDataURI
+        );
+        uploadedProfilePhotoUrl = uploadProfilePhoto.secure_url;
       }
+
+      // Handling the resume upload;
+      if (resume) {
+        const resumeDataURI = getDataUriParser(resume);
+        const uploadResume = await cloudinary.uploader.upload(resumeDataURI);
+        uploadedResumeURI = uploadResume.secure_url;
+      }
+
+      // Handliing the Skills array;
       const skillsArray = skills.split(",");
-
-      const userId = req.user.id; //from middleware;
-
+      const userId = req.user.id;
+      // checking use existence:
       const user = await User.findById(userId);
 
       if (!user) {
         return next(new errorHandler(404, "User not found"));
       }
-      if (Object.entries(req.files).length != 0 && req.files) {
-        if (req.files.profilePhoto != undefined)
-          user.profile.profilePhoto = req.files.profilePhoto[0].filename;
-        if (req.files.resume != undefined) {
-          user.profile.resume = req.files.resume[0].filename;
-          user.profile.resumeOriginalName = req.files.resume[0].originalname;
-        }
+
+      if (name) user.name = name;
+      if (phoneNumber) user.phoneNumber = phoneNumber;
+      if (bio) user.profile.bio = bio;
+      if (skillsArray)  user.profile.skills = skillsArray;
+      if (uploadedProfilePhotoUrl)user.profile.profilePhoto = uploadedProfilePhotoUrl;
+      if (uploadedResumeURI){ 
+       
+        user.profile.resume=uploadedResumeURI;
+        user.profile.resumeOriginalName=resume.originalname;
       }
-      user.name = name;
-      user.phoneNumber = phoneNumber;
-      user.profile.bio = bio;
-      user.profile.skills = skillsArray;
 
       await user.save();
       res.status(200).json({
         success: true,
-        message: "Profile updated successfully",
-        user,
+        message: "profile updated successfully",
+        user
       });
+
     } catch (error) {
+      console.log(error)
       return next(new errorHandler(500, error.message));
     }
   }),
 ];
+
+// exports.updateProfile = [
+//   upload.fields([{ name: "profilePhoto" }, { name: "resume" }]),
+//   asyncHandler(async (req, res, next) => {
+//     try {
+//       const formData = Object.assign({}, req.body);
+//       const { name, phoneNumber, bio, skills } = formData;
+
+//       if (!name || !phoneNumber || !bio || !skills) {
+//         return next(new errorHandler(404, "Fill all fields"));
+//       }
+
+//         //  cloudinary goes here
+//         if (Object.entries(req.files).length != 0 && req.files) {
+//           if (req.files.profilePhoto != undefined)
+//             user.profile.profilePhoto = req.files.profilePhoto[0].filename;
+//           if (req.files.resume != undefined) {
+//             user.profile.resume = req.files.resume[0].filename;
+//             user.profile.resumeOriginalName = req.files.resume[0].originalname;
+//           }
+//         }
+
+//       const skillsArray = skills.split(",");
+
+//       const userId = req.user.id; //from middleware;
+
+//       const user = await User.findById(userId);
+
+//       if (!user) {
+//         return next(new errorHandler(404, "User not found"));
+//       }
+
+//       user.name = name;
+//       user.phoneNumber = phoneNumber;
+//       user.profile.bio = bio;
+//       user.profile.skills = skillsArray;
+
+//       await user.save();
+//       res.status(200).json({
+//         success: true,
+//         message: "Profile updated successfully",
+//         user,
+//       });
+//     } catch (error) {
+//       return next(new errorHandler(500, error.message));
+//     }
+//   }),
+// ];
