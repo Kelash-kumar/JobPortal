@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const cloudinary = require('./utils/cloudinary')
 // const globalErrorHandler = require("./middlewares/errorMiddleware");
 require("dotenv").config();
 const connectDB = require("./config/db");
