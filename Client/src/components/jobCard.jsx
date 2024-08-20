@@ -27,7 +27,7 @@ const jobCard = ({ job }) => {
       </div>
       <br />
       <button
-      onClick={()=>navigate('/:Id')}
+      onClick={()=>navigate(`/:${job._id}`)}
       >Details</button>
     </div>
   );
