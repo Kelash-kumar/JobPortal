@@ -91,7 +91,7 @@ const Profile = () => {
         formData,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
             "content-type": "multipart/form-data",
           },
           withCredentials: true,

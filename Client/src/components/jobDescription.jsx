@@ -1,37 +1,87 @@
-import {useParams} from 'react-router-dom';
-import './styles/jobDescription.css';
-const jobDescription = () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {id} = useParams();
-    console.log(id);
-    
-  return (
-    <div className='job_Description_container'>
-        <div className='job_Description_container_Top'>
-            <div className='Top_Heading'>
-              <h1>Frontend Developer</h1>
-              <div className='top_details'>
-                <span>12 LPA</span>
-                <span>part time</span>
-                <span>10 opening</span>
-              </div>  
-            </div>
-        <button
-        className='top_btn'
-        >Apply</button>
-        </div>
-        <h1 className='job-desc-title'>Job Description</h1>
-        <div>
-            <h1 className='job-desc-value'>Role:<span>frontend developer</span></h1>
-            <h1 className='job-desc-value'>Location:<span>pakistan</span></h1>
-            <h1 className='job-desc-value'>Description:<span>This is job for frontend developer.</span></h1>
-            <h1 className='job-desc-value'>Experience:<span>3+years</span></h1>
-            <h1 className='job-desc-value'>Salary:<span>20M per month</span></h1>
-            <h1 className='job-desc-value'>Total Applicants:<span>20</span></h1>
-            <h1 className='job-desc-value'>Posted Date:<span>12/06/1224</span></h1>
-        </div>
-    </div>
-  )
-}
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useParams } from "react-router-dom";
+import "./styles/jobDescription.css";
+import { useSelector, useDispatch } from "react-redux";
+import { setJob } from "../redux/jobSlice";
+import { JOBS_API_END_POINT } from "../constant/constants";
+import axios from "axios";
+import { useEffect } from "react";
 
-export default jobDescription
+const jobDescription = () => {
+  const { id } = useParams();
+  const { Job } = useSelector((state) => state.jobs);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getSingleJob = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const res = await axios.get(`${JOBS_API_END_POINT}/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        });
+
+        if (res) {
+          dispatch(setJob(res.data.job));
+        }
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    };
+    getSingleJob();
+  }, [dispatch, id]);
+
+  const date = new Date(Job?.createdAt);
+  let applied = Job ?? Job?.applications.includes(id);
+  // let applied = false;
+  return (
+    <div className="job_Description_container">
+      <div className="job_Description_container_Top">
+        <div className="Top_Heading">
+          <h1>{Job?.title}</h1>
+          <div className="top_details">
+            <span>{Job?.salary}LPA</span>
+            <span>{Job?.jobType}</span>
+            <span>{Job?.position} Openings</span>
+          </div>
+        </div>
+        <button
+          disabled={applied}
+          className="top_btn "
+          onClick={() => confirm("applied")}
+        >
+          {applied ? "Applied" : "Apply"}
+        </button>
+      </div>
+      <h1 className="job-desc-title">Job Description</h1>
+      <div>
+        <h1 className="job-desc-value">
+          Role:<span>{Job?.title}</span>
+        </h1>
+        <h1 className="job-desc-value">
+          Location:<span>{Job?.location}</span>
+        </h1>
+        <h1 className="job-desc-value">
+          Description:<span>{Job?.description}</span>
+        </h1>
+        <h1 className="job-desc-value">
+          Experience:<span>{Job?.experienceLevel} years</span>
+        </h1>
+        <h1 className="job-desc-value">
+          Salary:<span>{Job?.salary} LPA</span>
+        </h1>
+        <h1 className="job-desc-value">
+          Total Applicants:<span>{Job?.applications.length}</span>
+        </h1>
+        <h1 className="job-desc-value">
+          Posted Date:<span>{date.toLocaleDateString()}</span>
+        </h1>
+      </div>
+    </div>
+  );
+};
+
+export default jobDescription;
