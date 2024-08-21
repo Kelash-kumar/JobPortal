@@ -64,7 +64,7 @@
   }
   
   .job-desc-value {
-    font-size: 18px;
+    font-size: 15px;
     color: #222;
     margin-bottom: 10px;
   }
@@ -72,5 +72,6 @@
   .job-desc-value span {
     color: #777;
     margin-left: 5px;
+    font-size: 13px;
   }
   

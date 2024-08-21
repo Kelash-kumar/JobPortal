@@ -3,18 +3,21 @@ import { useParams } from "react-router-dom";
 import "./styles/jobDescription.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setJob } from "../redux/jobSlice";
-import { JOBS_API_END_POINT } from "../constant/constants";
+import { setApplication } from "../redux/applicationSlice.js";
+import { JOBS_API_END_POINT, APPLICATION_API_END_POINT } from "../constant/constants";
 import axios from "axios";
 import { useEffect } from "react";
+import {toast} from 'react-hot-toast'
 
 const JobDescription = () => {
   const { id } = useParams();
   const { Job } = useSelector((state) => state.jobs);
+  const { Application } = useSelector((state) => state.applications);
   const dispatch = useDispatch();
-
+  const token = localStorage.getItem("token");
+console.log(Application)
   useEffect(() => {
     const getSingleJob = async () => {
-      const token = localStorage.getItem("token");
       try {
         const res = await axios.get(`${JOBS_API_END_POINT}/${id}`, {
           headers: {
@@ -46,8 +49,32 @@ const JobDescription = () => {
   if (Array.isArray(Job.applications)) {
     applied = Job.applications.includes(id);
   }
-console.log(applied)
   const date = new Date(Job.createdAt);
+
+
+const handleApplyJob = async()=>{
+  try {
+    console.log(token)
+    const res = await axios.post(`${ APPLICATION_API_END_POINT}/apply/${id}`,{}, {
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+
+    if (res && res.data) {
+      console.log(res.data)
+      dispatch(setApplication(res.data.newApplication))
+      toast.success(res.data.message )
+      
+      // dispatch(setJob(res.data.job));
+    }
+  } catch (error) {
+    console.log(error.response?.data?.message || error.message);
+    toast.error(error.response?.data?.message )
+  }
+}
 
   return (
     <div className="job_Description_container">
@@ -63,7 +90,7 @@ console.log(applied)
         <button
           disabled={applied}
           className="top_btn"
-          onClick={() => confirm("applied")}
+          onClick={handleApplyJob}
         >
           {applied ? "Applied" : "Apply"}
         </button>
