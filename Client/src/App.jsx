@@ -12,7 +12,7 @@ import UpdateProfile from "./components/updateProfile";
 import JobDescription from "./components/jobDescription";
 
 function App() {
-  const {user} = useSelector(state => state.auth);
+  const { user } = useSelector((state) => state.auth);
   return (
     <>
       <Router>
@@ -21,11 +21,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/browse" element={<Browse />} />
-         { user && (<>
-            <Route path="user/profile" element={<Profile/>}/>
-            <Route path="user/profile/update" element={<UpdateProfile/>}/>
-            <Route path="/:id" element={<JobDescription/>}/>
-          </>)}
+          {user && (
+            <>
+              <Route path="user/profile" element={<Profile />} />
+              <Route path="user/profile/update" element={<UpdateProfile />} />
+              <Route path="/:id" element={<JobDescription />} />
+            </>
+          )}
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
