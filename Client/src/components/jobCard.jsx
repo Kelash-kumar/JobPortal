@@ -5,11 +5,27 @@ import {useNavigate} from 'react-router-dom'
 const jobCard = ({ job }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigate = useNavigate();
-  // eslint-disable-next-line react-hooks/rules-of-hooks
- 
+  function jobPostedTimeCalculate(mongodbTime) {
+    const createdAt = new Date(mongodbTime);  
+    const currentTime = new Date();
+    const TimeDifference = currentTime-createdAt;
+
+    const postedDuration= Math.floor(TimeDifference/(1000*24*60*60));
+    if(postedDuration===0)return 'Today';
+    if(postedDuration===1){
+      return `${postedDuration} day`
+    }
+    if(postedDuration>1){
+      return `${postedDuration} days`
+    }
+ }
   return (
     <div className="job-card">
-      <span className="posted">2 hr ago</span>
+      <span className="posted">
+        {
+          jobPostedTimeCalculate(job?.createdAt)
+        }
+      </span>
       <span className="save">
         <CiBookmark />
       </span>

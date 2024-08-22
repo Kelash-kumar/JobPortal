@@ -93,7 +93,7 @@ exports.getAllJobs = asyncHandler(async (req, res, next) => {
 exports.getJobsById = asyncHandler(async(req,res,next) =>{
   try {
    const jobId = req.params.id;
-   const job = await Job.findById({_id:jobId});
+   const job = await Job.findById({_id:jobId}).populate('applications');
    if(!job){
     return next(new errorHandler(404,"This job is not exist."));
    } 

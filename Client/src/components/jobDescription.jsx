@@ -3,19 +3,22 @@ import { useParams } from "react-router-dom";
 import "./styles/jobDescription.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setJob } from "../redux/jobSlice";
-import { setAllApplications } from "../redux/applicationSlice.js";
-import { JOBS_API_END_POINT, APPLICATION_API_END_POINT } from "../constant/constants";
+// import { setAllApplications } from "../redux/applicationSlice.js";
+import {
+  JOBS_API_END_POINT,
+  APPLICATION_API_END_POINT,
+} from "../constant/constants";
 import axios from "axios";
 import { useEffect } from "react";
-import {toast} from 'react-hot-toast'
+import { toast } from "react-hot-toast";
 
 const JobDescription = () => {
   const { id } = useParams();
   const { Job } = useSelector((state) => state.jobs);
-  const { allApplications } = useSelector((state) => state.applications);
-  console.log(allApplications)
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
+
   useEffect(() => {
     const getSingleJob = async () => {
       try {
@@ -28,51 +31,50 @@ const JobDescription = () => {
         });
 
         if (res && res.data && res.data.job) {
-          
           dispatch(setJob(res.data.job));
         }
       } catch (error) {
-        console.log(error.response?.data?.message || error.message);
+        console.log(error.response?.data?.message );
       }
     };
     getSingleJob();
-  }, [dispatch, id]);
+  }, [id, dispatch, user._id, token]);
 
   if (!Job) {
     return <div>Loading...</div>;
   }
 
   // Default value for applied
-  let applied = false;
+  let applied = Job?.applications?.some(
+    (application) => application.applicant === user?._id || false
+  );
 
-  // Ensure Job.applications is an array before accessing it
-  if (Array.isArray(Job.applications)) {
-    applied = Job.applications.includes(id);
-  }
   const date = new Date(Job.createdAt);
 
+  const handleApplyJob = async () => {
+    // try {
+    //   const res = await axios.post(
+    //     `${APPLICATION_API_END_POINT}/apply/${id}`,
+    //     {},
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //       withCredentials: true,
+    //     }
+    //   );
 
-const handleApplyJob = async()=>{
-  try {
-    const res = await axios.post(`${ APPLICATION_API_END_POINT}/apply/${id}`,{}, {
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': `Bearer ${token}`,
-      },
-      withCredentials: true,
-    });
+    //   if (res && res.data) {
+    //     dispatch(setJob(res.data.job));
+    //     toast.success(res.data.message);
 
-    if (res && res.data) {
-      dispatch(setAllApplications.push(res.data.newApplication))
-      toast.success(res.data.message )
-      
-      // dispatch(setJob(res.data.job));
-    }
-  } catch (error) {
-    console.log(error.response?.data?.message || error.message);
-    toast.error(error.response?.data?.message )
-  }
-}
+    //   }
+    // } catch (error) {
+    //   console.log(error.response?.data?.message || error.message);
+    //   toast.error(error.response?.data?.message);
+    // }
+  };
 
   return (
     <div className="job_Description_container">
@@ -85,12 +87,8 @@ const handleApplyJob = async()=>{
             <span>{Job.position} Openings</span>
           </div>
         </div>
-        <button
-          disabled={applied}
-          className="top_btn"
-          onClick={handleApplyJob}
-        >
-          {applied ? "Applied" : "Apply"}
+        <button disabled={applied} className="top_btn" onClick={handleApplyJob}>
+          {applied ? "Applied" : "Apply Now"}
         </button>
       </div>
       <h1 className="job-desc-title">Job Description</h1>
