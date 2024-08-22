@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import "./styles/jobDescription.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setJob } from "../redux/jobSlice";
-import { setApplication } from "../redux/applicationSlice.js";
+import { setAllApplications } from "../redux/applicationSlice.js";
 import { JOBS_API_END_POINT, APPLICATION_API_END_POINT } from "../constant/constants";
 import axios from "axios";
 import { useEffect } from "react";
@@ -12,10 +12,10 @@ import {toast} from 'react-hot-toast'
 const JobDescription = () => {
   const { id } = useParams();
   const { Job } = useSelector((state) => state.jobs);
-  const { Application } = useSelector((state) => state.applications);
+  const { allApplications } = useSelector((state) => state.applications);
+  console.log(allApplications)
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-console.log(Application)
   useEffect(() => {
     const getSingleJob = async () => {
       try {
@@ -54,7 +54,6 @@ console.log(Application)
 
 const handleApplyJob = async()=>{
   try {
-    console.log(token)
     const res = await axios.post(`${ APPLICATION_API_END_POINT}/apply/${id}`,{}, {
       headers: {
         "Content-Type": "application/json",
@@ -64,8 +63,7 @@ const handleApplyJob = async()=>{
     });
 
     if (res && res.data) {
-      console.log(res.data)
-      dispatch(setApplication(res.data.newApplication))
+      dispatch(setAllApplications.push(res.data.newApplication))
       toast.success(res.data.message )
       
       // dispatch(setJob(res.data.job));

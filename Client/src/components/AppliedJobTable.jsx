@@ -3,7 +3,8 @@
 import './styles/AppliedJobTable.css';
 
 // eslint-disable-next-line react/prop-types
-const AppliedJobs = ({ jobs }) => {
+const AppliedJobs = ({ jobApplication }) => {
+  // console.log("==\n"+jobApplication)
   return (
     <div className="applied-jobs-section">
       <h3 className="applied-jobs-title">Applied Jobs</h3>
@@ -17,12 +18,12 @@ const AppliedJobs = ({ jobs }) => {
           </tr>
         </thead>
         <tbody>
-          {jobs.map((job, index) => (
+          {jobApplication.map((jobApplication, index) => (
             <tr key={index} >
-              <td>{job.date}</td>
-              <td>{job.role}</td>
-              <td>{job.company}</td>
-              <td className={`status ${job.status.toLowerCase()}`}>{job.status}</td>
+              <td>{jobApplication.createAt}</td>
+              <td>{jobApplication?.job?.title}</td>
+              <td>{jobApplication?.job?.company?.name}</td>
+              <td className={`status ${jobApplication.status.toLowerCase()}`}>{jobApplication.status}</td>
             </tr>
           ))}
         </tbody>

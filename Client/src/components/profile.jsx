@@ -10,37 +10,41 @@ import { USER_API_END_POINT } from "../constant/constants";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { setUser } from "../redux/authSlice";
+
+
+
+
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
+  const { Application } = useSelector((state) => state.applications);
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
-  const appliedJobs = [
-    {
-      date: "2024-08-01",
-      role: "Frontend Developer",
-      company: "Tech Innovators",
-      status: "Applied",
-    },
-    {
-      date: "2024-07-25",
-      role: "Backend Developer",
-      company: "Code Solutions",
-      status: "Review",
-    },
-    {
-      date: "2024-07-18",
-      role: "Full Stack Developer",
-      company: "Web Experts",
-      status: "Rejected",
-    },
-    {
-      date: "2024-07-10",
-      role: "UI/UX Designer",
-      company: "Creative Minds",
-      status: "Offered",
-    },
-  ];
-
+  // const appliedJobs = [
+  //   {
+  //     date: "2024-08-01",
+  //     role: "Frontend Developer",
+  //     company: "Tech Innovators",
+  //     status: "Applied",
+  //   },
+  //   {
+  //     date: "2024-07-25",
+  //     role: "Backend Developer",
+  //     company: "Code Solutions",
+  //     status: "Review",
+  //   },
+  //   {
+  //     date: "2024-07-18",
+  //     role: "Full Stack Developer",
+  //     company: "Web Experts",
+  //     status: "Rejected",
+  //   },
+  //   {
+  //     date: "2024-07-10",
+  //     role: "UI/UX Designer",
+  //     company: "Creative Minds",
+  //     status: "Offered",
+  //   },
+  // ];
   const [editProfile, setEditProfile] = useState(false);
   const [loading, setLoading] = useState(false);
   const [inputData, setInputData] = useState({
@@ -153,7 +157,7 @@ const Profile = () => {
         </div>
       </div>
       {/* Applied Jobs */}
-      <AppliedJobTable jobs={appliedJobs} />
+      <AppliedJobTable jobApplication={Application} />
 
       {/** Update profile */}
       <div className={`modal ${editProfile ? "show" : ""}`}>

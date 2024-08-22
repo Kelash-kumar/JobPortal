@@ -10,7 +10,7 @@ exports.applyJob = asyncHandler(async (req, res, next) => {
     const applicant_Id = req.user.id; //student who apply for this.
 
     // check job existenece:
-    let job = await Job.findById(jobId);
+    let job = await Job.findById(jobId).populate('company');
     if (!job) {
       return next(new errorHandler(400, "This job is no more available"));
     }
@@ -28,14 +28,26 @@ exports.applyJob = asyncHandler(async (req, res, next) => {
     const newApplication = await Application.create({
       applicant: applicant_Id,
       job: jobId,
-    });
+    })
 
     job.applications.push(newApplication._id);
     await job.save();
+
+    
+    // Populate the job and company fields in the newApplication
+    const populatedApplication = await Application.findById(newApplication._id)
+      .populate('job')
+      .populate({
+        path: 'job',
+        populate: {
+          path: 'company',
+          model: 'Company'
+        }
+      });
     res.status(200).json({
       success: true,
       message: "You have Applied for job successfully.",
-      newApplication,
+      newApplication:populatedApplication,
     });
   } catch (error) {
     return next(new errorHandler(500, error.message));
