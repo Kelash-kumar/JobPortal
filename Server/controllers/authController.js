@@ -21,8 +21,8 @@ const sendResponseToken = (user, statusCode, res) => {
 
 exports.registerUser = asyncHandler(async (req, res, next) => {
   try {
-    const { name, email, phoneNumber, password, role } = req.body;
-
+    const { name, email,password, phoneNumber , role } = req.body;
+    
     if (!name || !email || !password || !role || !phoneNumber) {
       return next(
         new errorHandler(
@@ -43,7 +43,6 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
       password: hashedPass,
       phoneNumber,
       role,
-      profilePhoto: req.file ? req.file.path : null,
     });
     sendResponseToken(newUser, 201, res); //token sent
   } catch (error) {
