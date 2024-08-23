@@ -1,16 +1,14 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useParams } from "react-router-dom";
 import "./styles/jobDescription.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setJob } from "../redux/jobSlice";
-// import { setAllApplications } from "../redux/applicationSlice.js";
 import {
   JOBS_API_END_POINT,
   APPLICATION_API_END_POINT,
 } from "../constant/constants";
 import axios from "axios";
-import { useEffect,useState } from "react";
-import {toast} from 'react-hot-toast';
+import { useEffect, useState } from "react";
+import { toast } from 'react-hot-toast';
 
 const JobDescription = () => {
   const { id } = useParams();
@@ -20,12 +18,11 @@ const JobDescription = () => {
     (application) => application.applicant === user?._id || false
   );
 
-  const [isApplied,setIsApplied]= useState(isInitiallyApplied);
+  const [isApplied, setIsApplied] = useState(isInitiallyApplied);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   const date = new Date(Job.createdAt);
 
-  
   const handleApplyJob = async () => {
     try {
       const res = await axios.post(
@@ -41,27 +38,22 @@ const JobDescription = () => {
       );
 
       if (res && res.data) {
-        setIsApplied(true) ; //updated the isApplied;
+        setIsApplied(true);
         const updatedJob = {
           ...Job,
-          applications:[
+          applications: [
             ...Job.applications,
-            {applicant:user._id}
+            { applicant: user._id }
           ]
         };
         dispatch(setJob(updatedJob))
         toast.success(res.data.message);
-
       }
     } catch (error) {
       console.log(error.response?.data?.message || error.message);
       toast.error(error.response?.data?.message);
     }
   };
-
-
-
-
 
   useEffect(() => {
     const getSingleJob = async () => {
@@ -90,6 +82,7 @@ const JobDescription = () => {
   if (!Job) {
     return <div>Loading...</div>;
   }
+
   return (
     <div className="job_Description_container">
       <div className="job_Description_container_Top">
@@ -101,10 +94,14 @@ const JobDescription = () => {
             <span>{Job.position} Openings</span>
           </div>
         </div>
-        <button disabled={isApplied} className="top_btn" onClick={handleApplyJob}>
-          {isApplied? "Applied" : "Apply Now"}
-        </button>
       </div>
+        <button
+          disabled={isApplied}
+          className="top_btn"
+          onClick={handleApplyJob}
+        >
+          {isApplied ? "Applied" : "Apply Now"}
+        </button>
       <h1 className="job-desc-title">Job Description</h1>
       <div>
         <h1 className="job-desc-value">
@@ -128,6 +125,21 @@ const JobDescription = () => {
         <h1 className="job-desc-value">
           Posted Date: <span>{date.toLocaleDateString()}</span>
         </h1>
+        <h1 className="job-desc-value">
+          Requirements:
+        </h1>
+        <ul className="job-requirements-list">
+        {Job.requirements.map((row, rowIndex) => (
+          <li key={rowIndex} className="job-requirement-row">
+            {row.map((requirement, colIndex) => (
+              <div key={colIndex} className="job-requirement-item">
+                <span className="job-requirement-icon">✓</span>
+                <span className="job-requirement-text">{requirement}</span>
+              </div>
+            ))}
+          </li>
+        ))}
+      </ul>
       </div>
     </div>
   );
