@@ -44,14 +44,15 @@
   
   .companies-table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    border-collapse:collapse;
+    margin-top: 40px;
   }
   
   .companies-table th,
   .companies-table td {
-    padding: 5px 15px;
+    padding: 10px 10px;
     border-bottom: 1px solid #ddd;
+    text-align: center;
   }
   
   .companies-table th {
@@ -68,35 +69,48 @@
 .action-dots:hover{
     color: #818181;
   }
-  
+ 
 .popup-menu {
   position: absolute;
   background-color: #f4f4f4;
   border: 1px solid #f4f4f4;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 0px 10px;
   z-index: 10;
- 
 }
 
-.popup-menu button {
-  display: block;
-  background: none;
-  border: none;
-  padding: auto 5px;
+.popup-menu_edits_actions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.popup-menu_edits_actions li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  gap: 5px;
   cursor: pointer;
-  text-align: left;
-  background-color: #e4e4e4;
-  width: 100px;
+  font-size: 1rem;
+  transition: background-color 0.2s;
 }
 
-.popup-menu button:hover {
-  background-color: #f0f0f0;
+.popup-menu_edits_actions li:last-child {
+  border-bottom: none;
+  color: red;
 }
-.popup-menu button:last-child {
-  background-color: rgb(255, 67, 67);
+
+.popup-menu_edits_actions li:hover {
+  background-color: #f5f5f5;
 }
+
+.icon {
+  font-size: 1.2rem /* Adjust size as needed */
+}
+
+
+
   /* form css */
   .company-form {
     margin-top: 20px;
