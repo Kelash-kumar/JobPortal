@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import UpdateProfile from "./components/updateProfile";
 import JobDescription from "./components/jobDescription";
 import Companies from "./components/admin/companies";
+import RegisterCompany from "./components/admin/RegisterCompany";
 function App() {
   const { user } = useSelector((state) => state.auth);
   return (
@@ -27,10 +28,12 @@ function App() {
               <Route path="user/profile/update" element={<UpdateProfile />} />
               <Route path="/:id" element={<JobDescription />} />
               <Route path="/admin/companies" element={<Companies/>}/>
+              <Route path="/admin/companies/register" element={<RegisterCompany/>}/>
             </>
           )}
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+           <Route path="*" element={<div>Page Not Fount 404</div>}/>
         </Routes>
       </Router>
     </>
