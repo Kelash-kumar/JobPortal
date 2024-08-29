@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authSlice from "./authSlice";
 import jobSlice from "./jobSlice";
+import companiesSlice from "./companiesSlice";
 // import applicationSlice from "./applicationSlice";
 import {
     // eslint-disable-next-line no-unused-vars
@@ -26,6 +27,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authSlice,
   jobs: jobSlice,
+  companies:companiesSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -2,6 +2,7 @@ import JobCard from "./jobCard";
 import "./styles/job.css";
 import FilterCard from "./FilterCard";
 import { useSelector } from "react-redux";
+
 const Jobs = () => {
   const { allJobs } = useSelector((state) => state.jobs);
   return (
