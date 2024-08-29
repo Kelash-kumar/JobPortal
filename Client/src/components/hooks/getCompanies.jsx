@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { COMPANIES_API_END_POINT } from "../../constant/constants";
-import {setCompanies  } from "../../redux/companiesSlice";
+import {setAllCompanies  } from "../../redux/companiesSlice";
 
 const getCompanies = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -20,7 +20,7 @@ const getCompanies = () => {
         });
         if(res.data){
          
-          dispatch(setCompanies(res.data.companies));
+          dispatch(setAllCompanies(res.data.companies));
         }
       } catch (error) {
         console.log(error.message);

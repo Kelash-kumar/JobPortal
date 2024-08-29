@@ -11,7 +11,7 @@ exports.registerCompany = asyncHandler(async (req, res, next) => {
     // const { name, description, website, location, logo } = req.body;
     const { name } = req.body;
     if (!name) {
-      return next(new errorHandler(400, "Please provide name"));
+      return next(new errorHandler(400, "Please provide company name"));
     }
     let company = await Company.findOne({ name });
     if (company) {

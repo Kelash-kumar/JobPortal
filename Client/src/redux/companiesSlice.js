@@ -3,14 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const companiesSlice =createSlice({
   name:"companies",
   initialState:{
-    companies:[],
+    allCompanies:[],
     company:{}
   },
   reducers:{
-    setCompanies:(state,action)=>{
-        state.companies=action.payload;
+    setAllCompanies:(state,action)=>{
+        state.allCompanies=action.payload;
     },
   }
 });
-export const  {setCompanies} = companiesSlice.actions;
+export const  {setAllCompanies} = companiesSlice.actions;
 export default companiesSlice.reducer;
