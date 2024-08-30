@@ -2,11 +2,15 @@ import "../styles/companies.css";
 import CompaniesTable from "./companiesTable";
 // import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import useCompanies from "../hooks/useCompanies";
 
 const Companies = () => {
   const navigate = useNavigate();
-  const {companies} = useSelector(state =>state.companies);
+  const companies = useCompanies();
+  if(companies.length ==0){
+    return <div>Loading...</div>
+  }
+  const allCompanies = companies.filter((company)=>{return company!=null})
   return (
     <div className="companies-container">
       <h2 className="companies-title">Manage Companies</h2>
@@ -28,7 +32,7 @@ const Companies = () => {
         </button> 
       </div>
       <CompaniesTable
-        companies={companies}
+        companies={allCompanies}
         // onEditClick={handleEditClick}
         // onDeleteClick={handleDeleteClick}
       />

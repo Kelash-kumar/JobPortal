@@ -12,6 +12,7 @@ import UpdateProfile from "./components/updateProfile";
 import JobDescription from "./components/jobDescription";
 import Companies from "./components/admin/companies";
 import RegisterCompany from "./components/admin/RegisterCompany";
+import CompanyForm from "./components/admin/CompanyForm";
 function App() {
   const { user } = useSelector((state) => state.auth);
   return (
@@ -29,6 +30,7 @@ function App() {
               <Route path="/:id" element={<JobDescription />} />
               <Route path="/admin/companies" element={<Companies/>}/>
               <Route path="/admin/companies/register" element={<RegisterCompany/>}/>
+              <Route path="/admin/companies/update" element={<CompanyForm/>}/>
             </>
           )}
           <Route path="/signin" element={<SignIn />} />

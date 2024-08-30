@@ -77,7 +77,7 @@ const JobDescription = () => {
       }
     };
     getSingleJob();
-  }, [id, dispatch, user._id]);
+  }, [id, dispatch, user?._id, token]);
 
   if (!Job) {
     return <div>Loading...</div>;

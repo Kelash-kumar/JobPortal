@@ -28,6 +28,7 @@ const CompaniesTable = ({ companies }) => {
       </thead>
       <tbody>
         {companies.map((company) => (
+         
           <tr key={company.id}>
             <td>LOGO</td>
             <td>{company.name}</td>
