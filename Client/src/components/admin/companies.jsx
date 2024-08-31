@@ -7,9 +7,7 @@ import useCompanies from "../hooks/useCompanies";
 const Companies = () => {
   const navigate = useNavigate();
   const companies = useCompanies();
-  if(companies.length ==0){
-    return <div>Loading...</div>
-  }
+ 
   const allCompanies = companies.filter((company)=>{return company!=null})
   return (
     <div className="companies-container">
@@ -33,8 +31,6 @@ const Companies = () => {
       </div>
       <CompaniesTable
         companies={allCompanies}
-        // onEditClick={handleEditClick}
-        // onDeleteClick={handleDeleteClick}
       />
     </div>
   );

@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Browse from "./components/browse";
 import Profile from "./components/profile";
 import { useSelector } from "react-redux";
-import UpdateProfile from "./components/updateProfile";
+// import UpdateProfile from "./components/updateProfile";
 import JobDescription from "./components/jobDescription";
 import Companies from "./components/admin/companies";
 import RegisterCompany from "./components/admin/RegisterCompany";
@@ -26,11 +26,11 @@ function App() {
           {user && (
             <>
               <Route path="user/profile" element={<Profile />} />
-              <Route path="user/profile/update" element={<UpdateProfile />} />
+              {/* <Route path="user/profile/update" element={<UpdateProfile />} /> */}
               <Route path="/:id" element={<JobDescription />} />
               <Route path="/admin/companies" element={<Companies/>}/>
               <Route path="/admin/companies/register" element={<RegisterCompany/>}/>
-              <Route path="/admin/companies/update" element={<CompanyForm/>}/>
+              <Route path="/admin/companies/:id" element={<CompanyForm/>}/>
             </>
           )}
           <Route path="/signin" element={<SignIn />} />

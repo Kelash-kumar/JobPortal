@@ -5,8 +5,9 @@
 const Company = require("../Models/company.model");
 const asyncHandler = require("../utils/asyncHandler");
 const errorHandler = require("../utils/errorHandler");
+const upload = require('../middlewares/upload');
 
-exports.registerCompany = asyncHandler(async (req, res, next) => {
+exports.registerCompany =  asyncHandler(async (req, res, next) => {
   try {
     // const { name, description, website, location, logo } = req.body;
     const { name } = req.body;
@@ -67,10 +68,15 @@ exports.getCompanyById = asyncHandler(async (req, res, next) => {
     return next(new errorHandler(500, error.message));
   }
 });
-exports.updateCompany = asyncHandler(async (req, res, next) => {
+exports.updateCompany = upload.none(),asyncHandler(async (req, res, next) => {
   try {
     const { name, description, website, location } = req.body;
-    const logo = req.file;
+    // const logo = req.file;
+    // console.log(logo);
+    
+   if(!name || !description  || !location){
+    return next(new errorHandler(401,"fill all fields"))
+   }
     // cloudinary upload here;
     const companyId = req.params.id;
     let company = await Company.findByIdAndUpdate(
@@ -85,7 +91,7 @@ exports.updateCompany = asyncHandler(async (req, res, next) => {
     );
 
     if (!company) {
-      return next(new errorHandler(404, "Company not found"));
+      return next(new errorHandler(404, "Company  not exsit"));
     }
 
     res.status(200).json({

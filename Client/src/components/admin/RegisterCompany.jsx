@@ -2,10 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-
 import { useDispatch } from "react-redux";
 import { addCompany } from "../../redux/companiesSlice";
 import { COMPANIES_API_END_POINT } from "../../constant/constants";
+
+
+
 const RegisterCompany = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -31,7 +33,7 @@ const RegisterCompany = () => {
         
         dispatch(addCompany(res.data.company));
         toast.success("Company registered successfully");
-        navigate("/admin/companies/update")
+        navigate(`/admin/companies/${res.data.company._id}`)
       }
     } catch (error) {
       console.log(error.response.data.message);

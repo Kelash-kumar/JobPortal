@@ -90,22 +90,22 @@ const Profile = () => {
       for (const key in inputData) {
         formData.append(key, inputData[key]);
       }
-      const res = await axios.put(
-        `${USER_API_END_POINT}/profile/update`,
-        formData,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            "content-type": "multipart/form-data",
-          },
-          withCredentials: true,
+        const res = await axios.put(
+          `${USER_API_END_POINT}/profile/update`,
+          formData,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              "content-type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        );
+        if (res.data) {
+          dispatch(setUser(res.data.user));
+          setEditProfile(false);
+          toast.success(res.data.message);
         }
-      );
-      if (res.data) {
-        dispatch(setUser(res.data.user));
-        setEditProfile(false);
-        toast.success(res.data.message);
-      }
     } catch (error) {
       toast.error(error.response.data.message);
     }finally{

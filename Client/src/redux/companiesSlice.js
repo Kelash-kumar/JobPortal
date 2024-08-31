@@ -4,7 +4,7 @@ const companiesSlice =createSlice({
   name:"companies",
   initialState:{
     allCompanies:[],
-    // company:{}
+    updatedCompany:{}
   },
   reducers:{
     setAllCompanies:(state,action)=>{
@@ -12,8 +12,11 @@ const companiesSlice =createSlice({
     },
     addCompany:(state,action)=>{
       state.allCompanies.push(action.payload);
+    },
+    setUpdateCompany:(state,action)=>{
+      state.updatedCompany=action.payload;
     }
   }
 });
-export const  {setAllCompanies,addCompany} = companiesSlice.actions;
+export const  {setAllCompanies,addCompany,setUpdateCompany} = companiesSlice.actions;
 export default companiesSlice.reducer;

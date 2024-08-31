@@ -8,7 +8,7 @@ const useCompanies = () => {
   const dispatch = useDispatch();
   const allCompanies = useSelector((state) => state.companies.allCompanies);
   const token = localStorage.getItem("token");
-
+ 
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
@@ -19,6 +19,7 @@ const useCompanies = () => {
           withCredentials: true,
         });
         if (res) {
+          console.log(res.data.companies)
           dispatch(setAllCompanies(res.data.companies));
         }
       } catch (error) {
@@ -26,10 +27,9 @@ const useCompanies = () => {
       }
     };
 
-    if (allCompanies.length === 0) {
-      fetchCompanies();
-    }
-  }, [dispatch, token, allCompanies.length]);
+    
+    fetchCompanies();
+  }, [allCompanies.length, dispatch, token]);
 
   return allCompanies;
 };
