@@ -117,3 +117,13 @@ exports.updateCompany = [
     }
   }),
 ];
+
+exports.deleteCompany =async(req,res,next)=>{
+  try {
+    const companyId = req.params.id;
+    await Company.findByIdAndDelete(companyId);
+    res.status(200).json({message:"successfully deleted "})
+  } catch (error) {
+    return next(new errorHandler(500,error.message))
+  }
+}

@@ -18,7 +18,7 @@ const companiesSlice =createSlice({
      if(company){
       Object.assign(company,details);
      }
-    }
+    },
   }
 });
 export const  {setAllCompanies,addCompany,updateCompanyDetails} = companiesSlice.actions;

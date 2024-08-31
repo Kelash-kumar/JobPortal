@@ -16,8 +16,14 @@ const CompaniesTable = ({ companies,onDelete }) => {
   return (
     <div className="companies-table-container">
       <h1>List Of All Companies</h1>
-      {companies.length !== 0 ? (
+{/*  
+eslint-disable-next-line react/prop-types
+*/}
+      {companies.length!== 0 ? (
         <div className="companies-card-container">
+          {/*  
+eslint-disable-next-line react/prop-types
+*/}
           {companies.map((company) => (
             <div key={company._id} className="company-card">
               <div className="company-card-header">

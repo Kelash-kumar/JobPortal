@@ -1,21 +1,38 @@
 import "../styles/companies.css";
 import CompaniesTable from "./companiesTable";
-// import { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useCompanies from "../hooks/useCompanies";
-import { useSelector, useDispatch } from "react-redux";
-import { updateCompanyDetails } from "../../redux/companiesSlice";
+import axios from "axios";
+import { COMPANIES_API_END_POINT } from "../../constant/constants";
+import { toast } from "react-hot-toast";
 
 
 const Companies = () => {
   const navigate = useNavigate();
-  const dispactch = useDispatch();
+  
+  
+  const allcompanies = useCompanies();
+  const [companies,setCompanies]=useState([...allcompanies]);
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.delete(`${COMPANIES_API_END_POINT}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
+      if (res) {
+        toast.success("deleted");
+       setCompanies(companies.filter((company)=>company._id!==id));
+      }
+    } catch (error) {
+      console.log(error.response?.data?.message);
+      toast.error(error.response?.data?.message);
+    }
+  };
 
-  const companies = useCompanies();
-  const handleDelete = (id) =>{
-   const deletedCompany=companies.find((company) =>company._id===id)
-          dispactch(updateCompanyDetails(deletedCompany))
-  }
   return (
     <div className="companies-container">
       <h2 className="companies-title">Manage Companies</h2>
@@ -28,18 +45,15 @@ const Companies = () => {
           className="filter-input"
         />
         <button
-            onClick={() =>{
-                  navigate('/admin/companies/register')
-            }}
+          onClick={() => {
+            navigate("/admin/companies/register");
+          }}
           className="add-button"
         >
           Add Company
-        </button> 
+        </button>
       </div>
-      <CompaniesTable
-        companies={companies}
-        onDelete={handleDelete}
-      />
+      <CompaniesTable companies={companies} onDelete={handleDelete} />
     </div>
   );
 };

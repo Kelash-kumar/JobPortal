@@ -6,15 +6,18 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateCompanyDetails } from "../../redux/companiesSlice";
+import { toast } from "react-hot-toast";
 
 const CompanyForm = () => {
   const navigate = useNavigate();
   const dispactch = useDispatch();
   const params = useParams();
 
-  const companyId = params.id;//getting selected company Id
-  const Company = useSelector((state) =>state.companies.companies.find((compnay)=>compnay._id===companyId));
-  
+  const companyId = params.id; //getting selected company Id
+  const Company = useSelector((state) =>
+    state.companies.companies.find((compnay) => compnay._id === companyId)
+  );
+
   const [companyDetails, setCompanyDetails] = useState({
     name: Company?.name || "",
     description: Company?.description || "",
@@ -56,10 +59,12 @@ const CompanyForm = () => {
         }
       );
       if (res.data && res.data.company) {
-        dispactch(updateCompanyDetails(companyId,res.data?.company));
-        navigate("/admin/companies")
+        toast.success("Updated successfully");
+        dispactch(updateCompanyDetails(companyId, res.data?.company));
+        navigate("/admin/companies");
       }
     } catch (error) {
+      toast.error(error?.response?.data?.message);
       console.log(error.message);
     }
   };
