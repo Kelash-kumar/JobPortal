@@ -5,31 +5,32 @@ import { COMPANIES_API_END_POINT } from "../../constant/constants";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setUpdateCompany } from "../../redux/companiesSlice";
+import { updateCompanyDetails } from "../../redux/companiesSlice";
 
 const CompanyForm = () => {
-  const params = useParams();
   const navigate = useNavigate();
-  const companyId = params.id;
-  const { updatedCompany } = useSelector((state) => state.companies);
-  // const {allCompanies} = useSelector(state => state.companies);
   const dispactch = useDispatch();
-  const [data, setdata] = useState({
-    name: updatedCompany?.name || "",
-    description: updatedCompany?.description || "",
-    website: updatedCompany?.website || "",
-    location: updatedCompany?.location || "",
+  const params = useParams();
+
+  const companyId = params.id;//getting selected company Id
+  const Company = useSelector((state) =>state.companies.companies.find((compnay)=>compnay._id===companyId));
+  
+  const [companyDetails, setCompanyDetails] = useState({
+    name: Company?.name || "",
+    description: Company?.description || "",
+    website: Company?.website || "",
+    location: Company?.location || "",
     logo: null,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setdata({ ...data, [name]: value });
+    setCompanyDetails({ ...companyDetails, [name]: value });
   };
 
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
-    setdata({ ...data, logo: file });
+    setCompanyDetails({ ...companyDetails, logo: file });
   };
 
   const handleFormSubmit = async (e) => {
@@ -37,10 +38,11 @@ const CompanyForm = () => {
     try {
       const formData = new FormData();
       const token = localStorage.getItem("token");
-      for (const key in data) {
-        formData.append(key, data[key]);
+
+      for (const key in companyDetails) {
+        formData.append(key, companyDetails[key]);
       }
-      console.log(formData)
+
       const res = await axios.put(
         `${COMPANIES_API_END_POINT}/${companyId}`,
 
@@ -55,10 +57,10 @@ const CompanyForm = () => {
       );
       if (res.data && res.data.company) {
         console.log(res.data);
-        dispactch(setUpdateCompany(res.data.company))
+        dispactch(updateCompanyDetails(companyId,res.data?.company))
       }
     } catch (error) {
-      console.log(error.response.data.message);
+      console.log(error.response?.data?.message);
     }
   };
 
@@ -74,7 +76,7 @@ const CompanyForm = () => {
           type="text"
           id="name"
           name="name"
-          value={data.name}
+          value={companyDetails.name}
           onChange={handleChange}
           required
         />
@@ -84,7 +86,7 @@ const CompanyForm = () => {
         <textarea
           id="description"
           name="description"
-          value={data.description}
+          value={companyDetails.description}
           onChange={handleChange}
           rows="4"
           cols="80"
@@ -96,7 +98,7 @@ const CompanyForm = () => {
           type="url"
           id="website"
           name="website"
-          value={data.website}
+          value={companyDetails.website}
           onChange={handleChange}
         />
       </div>
@@ -106,7 +108,7 @@ const CompanyForm = () => {
           type="text"
           id="location"
           name="location"
-          value={data.location}
+          value={companyDetails.location}
           onChange={handleChange}
           required
         />

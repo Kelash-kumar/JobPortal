@@ -3,20 +3,23 @@ import { createSlice } from "@reduxjs/toolkit";
 const companiesSlice =createSlice({
   name:"companies",
   initialState:{
-    allCompanies:[],
-    updatedCompany:{}
+   companies:[]
   },
   reducers:{
     setAllCompanies:(state,action)=>{
-        state.allCompanies=action.payload;
+        state.companies=action.payload;
     },
     addCompany:(state,action)=>{
-      state.allCompanies.push(action.payload);
+      state.companies.push(action.payload);
     },
-    setUpdateCompany:(state,action)=>{
-      state.updatedCompany=action.payload;
+    updateCompanyDetails:(state,action)=>{
+     const {id,details}=action.payload;
+     const company=state.companies.find((company) =>company._id===id);
+     if(company){
+      Object.assign(company,details);
+     }
     }
   }
 });
-export const  {setAllCompanies,addCompany,setUpdateCompany} = companiesSlice.actions;
+export const  {setAllCompanies,addCompany,updateCompanyDetails} = companiesSlice.actions;
 export default companiesSlice.reducer;

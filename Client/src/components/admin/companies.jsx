@@ -8,7 +8,6 @@ const Companies = () => {
   const navigate = useNavigate();
   const companies = useCompanies();
  
-  const allCompanies = companies.filter((company)=>{return company!=null})
   return (
     <div className="companies-container">
       <h2 className="companies-title">Manage Companies</h2>
@@ -30,7 +29,7 @@ const Companies = () => {
         </button> 
       </div>
       <CompaniesTable
-        companies={allCompanies}
+        companies={companies}
       />
     </div>
   );

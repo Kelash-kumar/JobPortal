@@ -6,7 +6,7 @@ import { COMPANIES_API_END_POINT } from "../../constant/constants";
 
 const useCompanies = () => {
   const dispatch = useDispatch();
-  const allCompanies = useSelector((state) => state.companies.allCompanies);
+  const {companies} = useSelector((state) => state.companies);
   const token = localStorage.getItem("token");
  
   useEffect(() => {
@@ -19,7 +19,7 @@ const useCompanies = () => {
           withCredentials: true,
         });
         if (res) {
-          console.log(res.data.companies)
+          // console.log(res.data.companies)
           dispatch(setAllCompanies(res.data.companies));
         }
       } catch (error) {
@@ -29,9 +29,9 @@ const useCompanies = () => {
 
     
     fetchCompanies();
-  }, [allCompanies.length, dispatch, token]);
+  }, [companies.length, dispatch, token]);
 
-  return allCompanies;
+  return companies;
 };
 
 export default useCompanies;

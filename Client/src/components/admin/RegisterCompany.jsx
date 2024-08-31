@@ -9,6 +9,7 @@ import { COMPANIES_API_END_POINT } from "../../constant/constants";
 
 
 const RegisterCompany = () => {
+
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const token = localStorage.getItem("token");
@@ -29,15 +30,13 @@ const RegisterCompany = () => {
         }
       );
       if (res.data) {
-        console.log(res.data.company);
-        
-        dispatch(addCompany(res.data.company));
+        dispatch(addCompany(res.data.company));//adding new company to companies state;
         toast.success("Company registered successfully");
-        navigate(`/admin/companies/${res.data.company._id}`)
+        navigate(`/admin/companies/${res?.data?.company._id}`)
       }
     } catch (error) {
-      console.log(error.response.data.message);
-      toast.error(error.response.data.message);
+      console.log(error.response?.data?.message);
+      toast.error(error.response?.data?.message);
     }
   };
   return (
