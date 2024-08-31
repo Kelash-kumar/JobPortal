@@ -56,11 +56,11 @@ const CompanyForm = () => {
         }
       );
       if (res.data && res.data.company) {
-        console.log(res.data);
-        dispactch(updateCompanyDetails(companyId,res.data?.company))
+        dispactch(updateCompanyDetails(companyId,res.data?.company));
+        navigate("/admin/companies")
       }
     } catch (error) {
-      console.log(error.response?.data?.message);
+      console.log(error.message);
     }
   };
 

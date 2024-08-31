@@ -5,9 +5,11 @@
 const Company = require("../Models/company.model");
 const asyncHandler = require("../utils/asyncHandler");
 const errorHandler = require("../utils/errorHandler");
-const upload = require('../middlewares/upload');
+const upload = require("../middlewares/upload");
+const cloudinary = require("cloudinary").v2;
+const { getDataUriParser } = require("../utils/getDatauri");
 
-exports.registerCompany =  asyncHandler(async (req, res, next) => {
+exports.registerCompany = asyncHandler(async (req, res, next) => {
   try {
     // const { name, description, website, location, logo } = req.body;
     const { name } = req.body;
@@ -68,38 +70,50 @@ exports.getCompanyById = asyncHandler(async (req, res, next) => {
     return next(new errorHandler(500, error.message));
   }
 });
-exports.updateCompany = upload.none(),asyncHandler(async (req, res, next) => {
-  try {
-    const { name, description, website, location } = req.body;
-    // const logo = req.file;
-    // console.log(logo);
-    
-   if(!name || !description  || !location){
-    return next(new errorHandler(401,"fill all fields"))
-   }
-    // cloudinary upload here;
-    const companyId = req.params.id;
-    let company = await Company.findByIdAndUpdate(
-      companyId,
-      {
-        name,
-        description,
-        website,
-        location,
-      },
-      { new: true }
-    );
+exports.updateCompany = [
+  upload.single("logo"),
 
-    if (!company) {
-      return next(new errorHandler(404, "Company  not exsit"));
+  asyncHandler(async (req, res, next) => {
+    try {
+      const { name, description, website, location } = req.body;
+      let uploadedCompanyLogoURL = null;
+      const logo = req.file;
+      // cloudinary upload here;
+      if (logo) {
+        //saving logo to cloudinay
+        const CompanyLogoURI = getDataUriParser(logo);
+        const uploadCompanyLogo = await cloudinary.uploader.upload(
+          CompanyLogoURI
+        );
+        uploadedCompanyLogoURL = uploadCompanyLogo.secure_url;
+      }
+      const companyId = req.params.id;
+      if (!name || !description || !location) {
+        return next(new errorHandler(401, "fill all fields"));
+      }
+      let company = await Company.findByIdAndUpdate(
+        companyId,
+        {
+          name,
+          description,
+          website,
+          location,
+          logo: uploadedCompanyLogoURL,
+        },
+        { new: true }
+      );
+
+      if (!company) {
+        return next(new errorHandler(404, "Company  not exsit"));
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "Company updated successfully",
+        company,
+      });
+    } catch (error) {
+      return next(new errorHandler(500, error.message));
     }
-
-    res.status(200).json({
-      success: true,
-      message: "Company updated successfully",
-      company,
-    });
-  } catch (error) {
-    return next(new errorHandler(500, error.message));
-  }
-});
+  }),
+];
