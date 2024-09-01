@@ -1,19 +1,25 @@
 import "../styles/companies.css";
 import CompaniesTable from "./companiesTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useCompanies from "../hooks/useCompanies";
 import axios from "axios";
 import { COMPANIES_API_END_POINT } from "../../constant/constants";
 import { toast } from "react-hot-toast";
-
+import { SetseacrchFilteredCompanyText } from "../../redux/companiesSlice";
+import { useDispatch } from "react-redux";
 
 const Companies = () => {
   const navigate = useNavigate();
-  
-  
+  const dispatch = useDispatch();
   const allcompanies = useCompanies();
-  const [companies,setCompanies]=useState([...allcompanies]);
+  const [companies, setCompanies] = useState([...allcompanies]);
+  const [filterInput, setFilterInput] = useState("");
+  
+  useEffect(() => {
+    dispatch(SetseacrchFilteredCompanyText(filterInput));
+  }, [dispatch, filterInput]);
+
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
     try {
@@ -25,7 +31,7 @@ const Companies = () => {
       });
       if (res) {
         toast.success("deleted");
-       setCompanies(companies.filter((company)=>company._id!==id));
+        setCompanies(companies.filter((company) => company._id !== id));
       }
     } catch (error) {
       console.log(error.response?.data?.message);
@@ -39,9 +45,9 @@ const Companies = () => {
       <div className="companies-actions">
         <input
           type="text"
-          placeholder="Filter Companies"
-          //   value={filterText}
-          //   onChange={handleFilterChange}
+          placeholder="Search Compnay by Name"
+          value={filterInput}
+          onChange={(e) => setFilterInput(e.target.value)}
           className="filter-input"
         />
         <button

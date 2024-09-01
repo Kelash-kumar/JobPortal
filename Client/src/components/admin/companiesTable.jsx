@@ -1,34 +1,49 @@
 import { IoEllipsisHorizontalOutline } from "react-icons/io5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TiEdit } from "react-icons/ti";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 // eslint-disable-next-line react/prop-types
-const CompaniesTable = ({ companies,onDelete }) => {
-  const [showMenu, setShowMenu] = useState(null);
+const CompaniesTable = ({ companies, onDelete }) => {
   const navigate = useNavigate();
+  const [showMenu, setShowMenu] = useState(null);
+  const { seacrchFilteredCompanyText } = useSelector(
+    (state) => state.companies
+  );
+  const [filteredSearchedCompany, setFilteredSearchedCompany] =
+    useState(companies);
 
   const handleShowMenu = (companyId) => {
     setShowMenu(showMenu === companyId ? null : companyId);
   };
 
+  useEffect(() => {
+    // eslint-disable-next-line react/prop-types
+    const filteredCompany = companies.filter((company) => {
+      if (!seacrchFilteredCompanyText) return true;
+      return company?.name
+        ?.toLowerCase()
+        .includes(seacrchFilteredCompanyText.toLowerCase());
+    });
+    setFilteredSearchedCompany(filteredCompany);
+  }, [companies, seacrchFilteredCompanyText]);
   return (
     <div className="companies-table-container">
       <h1>List Of All Companies</h1>
-{/*  
+      {/*  
 eslint-disable-next-line react/prop-types
 */}
-      {companies.length!== 0 ? (
+      {filteredSearchedCompany.length !== 0 ? (
         <div className="companies-card-container">
           {/*  
 eslint-disable-next-line react/prop-types
 */}
-          {companies.map((company) => (
+          {filteredSearchedCompany.map((company) => (
             <div key={company._id} className="company-card">
               <div className="company-card-header">
                 <img
-                  src={company.logo || 'https://via.placeholder.com/150'}
+                  src={company.logo || "https://via.placeholder.com/150"}
                   alt="Logo"
                   className="company-logo"
                 />
@@ -41,16 +56,16 @@ eslint-disable-next-line react/prop-types
                     <div className="popup-menu">
                       <ul className="popup-menu-actions">
                         <li
-                          onClick={() => navigate(`/admin/companies/${company._id}`)}
+                          onClick={() =>
+                            navigate(`/admin/companies/${company._id}`)
+                          }
                         >
                           <span className="icon">
                             <TiEdit />
                           </span>
                           Edit
                         </li>
-                        <li
-                        onClick={()=>onDelete(company._id)}
-                        >
+                        <li onClick={() => onDelete(company._id)}>
                           <span className="icon">
                             <RiDeleteBin6Line />
                           </span>
@@ -67,7 +82,7 @@ eslint-disable-next-line react/prop-types
                   {company.description || "No description available"}
                 </p>
                 <a
-                  href={company.website || '#'}
+                  href={company.website || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="company-website"
