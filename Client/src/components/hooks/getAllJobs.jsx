@@ -21,6 +21,8 @@ const getAllJobs = () => {
         if(res.data){
          
           dispatch(setAllJobs(res.data.jobs));
+        
+
         }
       } catch (error) {
         console.log(error.message);

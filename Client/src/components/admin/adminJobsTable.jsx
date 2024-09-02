@@ -5,16 +5,15 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 // eslint-disable-next-line react/prop-types
-const CompaniesTable = ({ companies, onDelete }) => {
-
+const AdminJobsTable = ({ companies }) => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(null);
-  
   const { seacrchFilteredCompanyText } = useSelector(
     (state) => state.companies
   );
-  
-  const [filteredSearchedCompany, setFilteredSearchedCompany] = useState(companies);
+
+  const [filteredSearchedCompany, setFilteredSearchedCompany] =
+    useState(companies);
 
   const handleShowMenu = (companyId) => {
     setShowMenu(showMenu === companyId ? null : companyId);
@@ -30,29 +29,27 @@ const CompaniesTable = ({ companies, onDelete }) => {
     });
     setFilteredSearchedCompany(filteredCompany);
   }, [companies, seacrchFilteredCompanyText]);
-  
+
   return (
-    <div className="companies-table-container">
-      <h1>List Of All Companies</h1>
-      {/*  
-eslint-disable-next-line react/prop-types
-*/}
-      {filteredSearchedCompany.length !== 0 ? (
-        <div className="companies-card-container">
-          {/*  
-eslint-disable-next-line react/prop-types
-*/}
-          {filteredSearchedCompany.map((company) => (
-            <div key={company._id} className="company-card">
-              <div className="company-card-header">
-                <img
-                  src={company.logo || "https://via.placeholder.com/150"}
-                  alt="Logo"
-                  className="company-logo"
-                />
+    <table className="companies-table">
+      <thead>
+        <tr>
+          <th>Job Type</th>
+          <th>Company</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filteredSearchedCompany.lenght > 0 &&
+          filteredSearchedCompany.map((company) => (
+            <tr key={company.id}>
+              <td>{company.name}</td>
+              <td>{company.industry}</td>
+              <td>{company.location}</td>
+              <td>
                 <div
                   className="action-dots"
-                  onClick={() => handleShowMenu(company._id)}
+                  onClick={() => handleShowMenu(company.id)}
                 >
                   <IoEllipsisHorizontalOutline />
                   {showMenu === company._id && (
@@ -68,7 +65,7 @@ eslint-disable-next-line react/prop-types
                           </span>
                           Edit
                         </li>
-                        <li onClick={() => onDelete(company._id)}>
+                        <li onClick={() => alert(company._id)}>
                           <span className="icon">
                             <RiDeleteBin6Line />
                           </span>
@@ -78,32 +75,12 @@ eslint-disable-next-line react/prop-types
                     </div>
                   )}
                 </div>
-              </div>
-              <div className="company-card-body">
-                <h2 className="company-name">{company.name}</h2>
-                <p className="company-description">
-                  {company.description || "No description available"}
-                </p>
-                <a
-                  href={company.website || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="company-website"
-                >
-                  {company.website || "No website available"}
-                </a>
-                <p className="company-location">
-                  {company.location || "Location not provided"}
-                </p>
-              </div>
-            </div>
+              </td>
+            </tr>
           ))}
-        </div>
-      ) : (
-        <div className="loading">Loading...</div>
-      )}
-    </div>
+      </tbody>
+    </table>
   );
 };
 
-export default CompaniesTable;
+export default AdminJobsTable;
