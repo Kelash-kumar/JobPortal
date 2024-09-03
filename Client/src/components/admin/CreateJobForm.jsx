@@ -1,8 +1,14 @@
 import { useState } from "react";
-// import axios from 'axios';
+import axios from "axios";
 import "../styles/CreateJobForm.css";
+import { JOBS_API_END_POINT } from "../../constant/constants";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const CreateJobForm = () => {
+
+  const navigate = useNavigate();
+
   const [jobData, setJobData] = useState({
     title: "",
     description: "",
@@ -23,14 +29,28 @@ const CreateJobForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // try {
-    //   const response = await axios.post('/api/jobs', jobData); // Change this to your actual API endpoint
-    //   console.log('Job created successfully:', response.data);
-    //   // Optionally, reset the form or redirect after successful creation
-    // } catch (error) {
-    //   console.error('There was an error creating the job!', error);
-    // }
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await axios.post(`${JOBS_API_END_POINT}`, jobData, {
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+      });
+      
+
+      console.log(res.data.job);
+      if (res.data && res.data.job) {
+        toast.success("Job has Posted .");
+        // dispatch(setAdminJobs(res.data.jobs));
+        navigate("/admin/jobs");
+      }
+    } catch (error) {
+      toast(error.response.data.message);
+      console.error(
+        "There was an error creating the job!",
+        error.response.data.message
+      );
+    }
   };
 
   return (
@@ -49,7 +69,7 @@ const CreateJobForm = () => {
       <div>
         <label>Description:</label>
         <textarea
-          type='text'
+          type="text"
           name="description"
           value={jobData.description}
           onChange={handleChange}
@@ -59,17 +79,16 @@ const CreateJobForm = () => {
 
       <div>
         <label>Requirements:</label>
-        
-          <div>
-            <input
-              type="text"
-              name="requirements"
-              value={jobData.requirements}
-              onChange={handleChange}
-              required
-            />
-          </div>
-       
+
+        <div>
+          <input
+            type="text"
+            name="requirements"
+            value={jobData.requirements}
+            onChange={handleChange}
+            required
+          />
+        </div>
       </div>
 
       <div>
@@ -96,9 +115,7 @@ const CreateJobForm = () => {
 
       <div>
         <label>Job Type:</label>
-        <select name='jobType' id="jobType"
-        onChange={handleChange}
-        >
+        <select name="jobType" id="jobType" onChange={handleChange}>
           <option value="Full-Time">Full-Time</option>
           <option value="Part-Time">Part-Time</option>
           <option value="Remote">Remote</option>

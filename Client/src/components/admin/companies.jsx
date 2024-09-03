@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useCompanies from "../hooks/useCompanies";
 import axios from "axios";
-import { COMPANIES_API_END_POINT } from "../../constant/constants";
 import { toast } from "react-hot-toast";
+import { COMPANIES_API_END_POINT } from "../../constant/constants";
 import { SetseacrchFilteredCompanyText } from "../../redux/companiesSlice";
 import { useDispatch } from "react-redux";
 

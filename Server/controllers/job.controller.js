@@ -23,6 +23,7 @@ exports.postJob = asyncHandler(async (req, res, next) => {
       position,
       experienceLevel,
     } = req.body;
+
     const userId = req.user._id;
 
     if (
@@ -41,10 +42,12 @@ exports.postJob = asyncHandler(async (req, res, next) => {
     if (!company) {
       return next(new errorHandler(400, "user has no company"));
     }
+    const requirementsArray=requirements.split(',');
+    
     const job = await Job.create({
       title,
       description,
-      requirements,
+      requirements:requirementsArray,
       location,
       salary: Number(salary),
       jobType,
@@ -61,7 +64,7 @@ exports.postJob = asyncHandler(async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "Post job",
-      data: job,
+      job: job,
     });
   } catch (error) {
     return next(new errorHandler(500, error.message));
