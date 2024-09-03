@@ -1,68 +1,37 @@
 import "../styles/adminJob.css";
-import AdminJobsTable from "./adminJobsTable";
-import { useEffect, useState } from "react";
+import JobListingTable from "./adminJobsTable";
 import { useNavigate } from "react-router-dom";
-import useCompanies from "../hooks/useCompanies";
-import { COMPANIES_API_END_POINT } from "../../constant/constants";
-import { toast } from "react-hot-toast";
-import { SetseacrchFilteredCompanyText } from "../../redux/companiesSlice";
-import { useDispatch } from "react-redux";
-import axios from "axios";
+import useAdminJobs from "../hooks/useAdminJobs";
 
-const Companies = () => {
+const Jobs = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const allcompanies = useCompanies();
-
-  const [companies, setCompanies] = useState([...allcompanies]);
-  const [filterInput, setFilterInput] = useState("");
-  
-  useEffect(() => {
-    dispatch(SetseacrchFilteredCompanyText(filterInput));
-  }, [dispatch, filterInput]);
-
-  const handleDelete = async (id) => {
-    const token = localStorage.getItem("token");
-    try {
-      const res = await axios.delete(`${COMPANIES_API_END_POINT}/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
-      if (res) {
-        toast.success("deleted");
-        setCompanies(companies.filter((company) => company._id !== id));
-      }
-    } catch (error) {
-      console.log(error.response?.data?.message);
-      toast.error(error.response?.data?.message);
-    }
-  };
+  const allAdminJobs = useAdminJobs();
 
   return (
-    <div className="companies-container">
-      <h2 className="companies-title">Manage All your posted jobs</h2>
-      <div className="companies-actions">
+    <div className="Jobs-container">
+      <h2 className="Jobs-title">Manage All your posted jobs</h2>
+      <div className="Jobs-actions">
         <input
           type="text"
           placeholder="Search job  by Name"
-          value={filterInput}
-          onChange={(e) => setFilterInput(e.target.value)}
-          className="filter-input"
+          value={""}
+          onChange={() => "hell0"}
+          className="jobs-filter-input"
         />
         <button
           onClick={() => {
-            navigate("/admin/companies/register");
+            navigate("/admin/Jobs/register");
           }}
-          className="add-button"
+          className="add-job-button"
         >
-          Add Company
+          create Job
         </button>
       </div>
-      <AdminJobsTable companies={companies} onDelete={handleDelete} />
+     <JobListingTable
+     jobs={allAdminJobs}
+     />
     </div>
   );
 };
 
-export default Companies;
+export default Jobs;

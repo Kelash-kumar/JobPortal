@@ -8,6 +8,7 @@ const Company = require("../Models/company.model");
  * 2- getAllJobs
  * 3- getJobById
  * 4- updateJob
+ * 5-getAdminJobs
  */
 
 exports.postJob = asyncHandler(async (req, res, next) => {
@@ -76,34 +77,49 @@ exports.getAllJobs = asyncHandler(async (req, res, next) => {
         { description: { $regex: keyword, $options: "i" } },
       ],
     };
-    const jobs = await Job.find(query).populate('company');
-    if(!jobs){
-      return next(new errorHandler(404,'No jobs availabe '));
+    const jobs = await Job.find(query).populate("company");
+    if (!jobs) {
+      return next(new errorHandler(404, "No jobs availabe "));
     }
     res.status(200).json({
-      success:true,
-      message:'successfully got all jobs',
-      jobs
+      success: true,
+      message: "successfully got all jobs",
+      jobs,
     });
   } catch (error) {
     return next(new errorHandler(500, error.message));
   }
 });
 
-exports.getJobsById = asyncHandler(async(req,res,next) =>{
+exports.getJobsById = asyncHandler(async (req, res, next) => {
   try {
-   const jobId = req.params.id;
-   const job = await Job.findById({_id:jobId}).populate('applications');
-   if(!job){
-    return next(new errorHandler(404,"This job is not exist."));
-   } 
-   res.status(200).json({
-    success:true,
-    message:'successfully found the job.',
-    job
-   });
-
+    const jobId = req.params.id;
+    const job = await Job.findById({ _id: jobId }).populate("applications");
+    if (!job) {
+      return next(new errorHandler(404, "This job is not exist."));
+    }
+    res.status(200).json({
+      success: true,
+      message: "successfully found the job.",
+      job,
+    });
   } catch (error) {
-    return next(new errorHandler(500,error.message));
+    return next(new errorHandler(500, error.message));
+  }
+});
+exports.getAdminJobs = asyncHandler(async (req, res, next) => {
+  try {
+    const adminId = req.id;
+    const jobs = await Job.find({ createdBy: adminId }).populate('company');
+    if (!jobs) {
+      return next(new errorHandler(404, "No jobs avialable for you."));
+    }
+    
+    res.status(200).json({
+      message: "successfully got all jobs",
+      jobs: jobs,
+    });
+  } catch (error) {
+    return next(new errorHandler(500, error.message));
   }
 });

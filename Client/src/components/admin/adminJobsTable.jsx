@@ -1,86 +1,81 @@
-import { IoEllipsisHorizontalOutline } from "react-icons/io5";
-import { useEffect, useState } from "react";
 import { TiEdit } from "react-icons/ti";
+import { IoEllipsisHorizontalOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-// eslint-disable-next-line react/prop-types
-const AdminJobsTable = ({ companies }) => {
+
+const JobListingTable = ({ jobs }) => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(null);
-  const { seacrchFilteredCompanyText } = useSelector(
-    (state) => state.companies
-  );
 
-  const [filteredSearchedCompany, setFilteredSearchedCompany] =
-    useState(companies);
-
-  const handleShowMenu = (companyId) => {
-    setShowMenu(showMenu === companyId ? null : companyId);
+  const handleShowMenu = (jobId) => {
+    setShowMenu(showMenu === jobId ? null : jobId);
   };
-
-  useEffect(() => {
-    // eslint-disable-next-line react/prop-types
-    const filteredCompany = companies.filter((company) => {
-      if (!seacrchFilteredCompanyText) return true;
-      return company?.name
-        ?.toLowerCase()
-        .includes(seacrchFilteredCompanyText.toLowerCase());
-    });
-    setFilteredSearchedCompany(filteredCompany);
-  }, [companies, seacrchFilteredCompanyText]);
-
   return (
-    <table className="companies-table">
-      <thead>
-        <tr>
-          <th>Job Type</th>
-          <th>Company</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {filteredSearchedCompany.lenght > 0 &&
-          filteredSearchedCompany.map((company) => (
-            <tr key={company.id}>
-              <td>{company.name}</td>
-              <td>{company.industry}</td>
-              <td>{company.location}</td>
-              <td>
-                <div
-                  className="action-dots"
-                  onClick={() => handleShowMenu(company.id)}
-                >
-                  <IoEllipsisHorizontalOutline />
-                  {showMenu === company._id && (
-                    <div className="popup-menu">
-                      <ul className="popup-menu-actions">
-                        <li
-                          onClick={() =>
-                            navigate(`/admin/companies/${company._id}`)
-                          }
-                        >
-                          <span className="icon">
-                            <TiEdit />
-                          </span>
-                          Edit
-                        </li>
-                        <li onClick={() => alert(company._id)}>
-                          <span className="icon">
-                            <RiDeleteBin6Line />
-                          </span>
-                          Delete
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
+    <div className="job-table-container">
+      <table className="job-table">
+        <thead>
+          <tr>
+            <th>Job Title</th>
+            <th>job</th>
+            <th>Location</th>
+            <th>Date Posted</th>
+            {/* <th>Status</th> */}
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {jobs.length > 0 ? (
+            jobs.map((job) => (
+              <tr key={job._id}>
+                <td>{job.title}</td>
+                <td>{job.company?.name}</td>
+                <td>{job.location}</td>
+                <td>{new Date(job.createdAt).toLocaleDateString()}</td>
+                {/* <td className={`status ${job.status?.toLowerCase()}`}>{job.status}</td>  */}
+                <td>
+                  <div
+                    className="jobs-action-dot"
+                    onClick={() => handleShowMenu(job._id)}
+                  >
+                    <IoEllipsisHorizontalOutline />
+                    {showMenu === job._id && (
+                      <div className="job-popup-menu">
+                        <ul className="job-popup-menu-actions">
+                          <li
+                            onClick={() =>
+                              navigate(`/admin/job/${job._id}`)
+                            }
+                          >
+                            <span className="jobs-action-icon">
+                              <TiEdit />
+                            </span>
+                            Edit
+                          </li>
+                          <li>
+                            <span className="icon">
+                              <RiDeleteBin6Line />
+                            </span>
+                            Delete
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6" className="no-jobs">
+                No jobs found.
               </td>
             </tr>
-          ))}
-      </tbody>
-    </table>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
-export default AdminJobsTable;
+export default JobListingTable;
