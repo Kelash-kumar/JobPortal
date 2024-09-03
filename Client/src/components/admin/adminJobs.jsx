@@ -20,7 +20,7 @@ const Jobs = () => {
         />
         <button
           onClick={() => {
-            navigate("/admin/Jobs/register");
+            navigate("/admin/Job/create");
           }}
           className="add-job-button"
         >

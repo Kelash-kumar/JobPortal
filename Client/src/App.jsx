@@ -14,6 +14,7 @@ import Companies from "./components/admin/companies";
 import RegisterCompany from "./components/admin/RegisterCompany";
 import CompanyForm from "./components/admin/CompanyForm";
 import AdminJobs from "./components/admin/adminJobs";
+import  CreateJobForm  from "./components/admin/CreateJobForm";
 function App() {
   const { user } = useSelector((state) => state.auth);
   return (
@@ -33,6 +34,7 @@ function App() {
               <Route path="/admin/companies/register" element={<RegisterCompany/>}/>
               <Route path="/admin/companies/:id" element={<CompanyForm/>}/>
               <Route path="/admin/jobs" element={<AdminJobs />}/>
+              <Route path="/admin/job/create" element={<CreateJobForm />}/>
             </>
           )}
           <Route path="/signin" element={<SignIn />} />
