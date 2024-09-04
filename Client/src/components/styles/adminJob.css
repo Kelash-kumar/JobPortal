@@ -63,7 +63,7 @@
 }
 
 .add-job-button:active {
-  background-color: #004085; /* Even darker blue on click */
+  background-color:  #c59400;; /* Even darker blue on click */
   transform: translateY(0); /* Reset lift effect on click */
 }
 

@@ -1,46 +1,67 @@
 .companies-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f4f4f4;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .companies-title {
-    font-size: 28px;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .companies-actions {
-    display: flex;
-    /* background-color: #218838; */
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  .filter-input, input[text]{
-      width: 80%;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    height: 30px;
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-top: 50px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-  
-  .add-button {
-    padding: 10px 10px;
-    background-color: #ffc107;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
+.companies-title {
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.companies-actions {
+  display: flex;
+  /* background-color: #218838; */
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-input,
+input[text] {
+  flex-grow: 1;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s ease;
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: #f7bf17; /* Focused input border color */
+}
+
+.add-button {
+  width: 30%;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+  text-transform: capitalize;
+  background-color: #ffc107;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-button:hover {
+  background-color: #ffc516; /* Darker blue on hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.add-button:active {
+  background-color: #c59400; /* Even darker blue on click */
+  transform: translateY(0); /* Reset lift effect on click */
+}
 
 /* Register Company Css */
 .create-company-form-container {
@@ -125,229 +146,209 @@
   }
 }
 
-
-
-
-
-
-
 /* ============================================================================== */
-  /* form css */
+/* form css */
 
+.company-form {
+  width: 600px;
+  margin-top: 50px;
+  padding: 50px;
+  /* background-color: #fff; */
+  /* border-radius: 10px;/ */
+  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+}
 
-  .company-form {
-   
-    width: 600px;
-    margin-top: 50px;
-    padding: 50px;
-    /* background-color: #fff; */
-    /* border-radius: 10px;/ */
-    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
-  }
-  
-  .form-back{
-    font-size: 1rem;
-    color: gray ;
-    padding: 10px;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background-color: rgba(128, 128, 128, 0.199);
-    cursor: pointer;
-  }
-  .company-form h3 {
-    font-size: 24px;
-    font-weight: 500;
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 16px;
-    font-weight: 500;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  .form-actions {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .save-button,
-  .cancel-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .save-button {
-    background-color: #28a745;
-    color: #fff;
-  }
-  
-  .cancel-button {
-    background-color: #6c757d;
-    color: #fff;
-  }
-  
-  .save-button:hover {
-    background-color: #218838;
-  }
-  
-  .cancel-button:hover {
-    background-color: #5a6268;
-  }
-  
+.form-back {
+  font-size: 1rem;
+  color: gray;
+  padding: 10px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(128, 128, 128, 0.199);
+  cursor: pointer;
+}
+.company-form h3 {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.save-button,
+.cancel-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.save-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.cancel-button {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.save-button:hover {
+  background-color: #218838;
+}
+
+.cancel-button:hover {
+  background-color: #5a6268;
+}
 
 /* Company Table Css ===================================================================*/
 
+.companies-table-container {
+  padding: 20px;
+}
 
+.companies-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
 
-  .companies-table-container {
-    padding: 20px;
- 
-  }
-  
-  .companies-card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-  }
-  
-  .company-card {
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden;
-    position: relative;
-  }
-  
-  .company-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .company-card-header {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    border-bottom: 1px solid #eee;
-    background-color: #f9f9f9;
-    position: relative;
-  }
-  
-  .company-logo {
-    width: 220px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-right: 16px;
-  }
-  
-  .action-dots {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    cursor: pointer;
-  }
-  
-  .popup-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: none;
-  }
-  
-  .action-dots:hover .popup-menu {
-    display: block;
-  }
-  
-  .popup-menu-actions {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .popup-menu-actions li {
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  .popup-menu-actions li:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .icon {
-    margin-right: 8px;
-  }
-  
-  .company-card-body {
-    padding: 16px;
-  }
-  
-  .company-name {
-    font-size: 1.4em;
-    margin: 0;
-    color: #333;
-  }
-  
-  .company-description {
-    font-size: 0.9em;
-    color: #555;
-    margin: 10px 0;
-  }
-  
-  .company-website {
-    color: #007bff;
-    text-decoration: none;
-    font-size: 0.9em;
-  }
-  
-  .company-website:hover {
-    text-decoration: underline;
-  }
-  
-  .company-location {
-    font-size: 0.9em;
-    color: #777;
-  }
-  
-  .loading {
-    text-align: center;
-    padding: 20px;
-  }
-  
+.company-card {
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  position: relative;
+}
 
+.company-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
 
+.company-card-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  background-color: #f9f9f9;
+  position: relative;
+}
 
+.company-logo {
+  width: 220px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 16px;
+}
 
+.action-dots {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+}
 
+.popup-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+}
 
-  
+.action-dots:hover .popup-menu {
+  display: block;
+}
+
+.popup-menu-actions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.popup-menu-actions li {
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.popup-menu-actions li:hover {
+  background-color: #f0f0f0;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.company-card-body {
+  padding: 16px;
+}
+
+.company-name {
+  font-size: 1.4em;
+  margin: 0;
+  color: #333;
+}
+
+.company-description {
+  font-size: 0.9em;
+  color: #555;
+  margin: 10px 0;
+}
+
+.company-website {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+.company-website:hover {
+  text-decoration: underline;
+}
+
+.company-location {
+  font-size: 0.9em;
+  color: #777;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+}
