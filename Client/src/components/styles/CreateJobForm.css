@@ -1,28 +1,30 @@
 /* CreateJobForm.css */
 
-form {
+.job-Form {
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 50px auto;
 }
 
-form div {
+.job-Form-inputs {
   margin-bottom: 15px;
 }
 
-label {
+.job-Form-inputs label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
   color: #333;
 }
 
-input[type="text"],
+.job-Form-inputsinput,
+[type="text"],
 input[type="number"],
 textarea {
   width: 100%;
@@ -33,11 +35,11 @@ textarea {
   box-sizing: border-box;
 }
 
-textarea {
+.job-Form-inputs textarea {
   resize: vertical;
 }
 
-button {
+.job-Form-inputs button {
   display: inline-block;
   padding: 10px 15px;
   font-size: 16px;
@@ -65,12 +67,12 @@ button {
   color: white;
 }
 
-button[type="button"]:hover {
+.job-Form-inputs button[type="button"]:hover {
   background-color: #5a6268;
 }
 
 /* Basic styles for the select element */
-select {
+.job-Form-inputs select {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -85,7 +87,7 @@ select {
 }
 
 /* To add a custom arrow icon */
-select {
+.job-Form-inputs select {
   background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
   background-repeat: no-repeat;
   background-position: right 10px center;
@@ -94,13 +96,13 @@ select {
 }
 
 /* Focus state */
-select:focus {
+.job-Form-inputs select:focus {
   border-color: #007bff;
   outline: none;
 }
 
 /* Disabled state */
-select:disabled {
+.job-Form-inputs select:disabled {
   background-color: #e9ecef;
   cursor: not-allowed;
   color: #6c757d;

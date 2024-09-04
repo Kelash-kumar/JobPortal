@@ -1,9 +1,12 @@
 import { TiEdit } from "react-icons/ti";
 import { IoEllipsisHorizontalOutline } from "react-icons/io5";
+import { MdOutlineDescription } from "react-icons/md";
+import { MdPeopleOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
+// eslint-disable-next-line react/prop-types
 const JobListingTable = ({ jobs }) => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(null);
@@ -28,7 +31,11 @@ const JobListingTable = ({ jobs }) => {
           {jobs.length > 0 ? (
             jobs.map((job) => (
               <tr key={job._id}>
-                <td>{job.title}</td>
+                <td>
+                  {/* <Link to={`/admin/job/:${job._id}`}> */}
+                  {job.title}
+                  {/* </Link> */}
+                </td>
                 <td>{job.company?.name}</td>
                 <td>{job.location}</td>
                 <td>{new Date(job.createdAt).toLocaleDateString()}</td>
@@ -42,11 +49,7 @@ const JobListingTable = ({ jobs }) => {
                     {showMenu === job._id && (
                       <div className="job-popup-menu">
                         <ul className="job-popup-menu-actions">
-                          <li
-                            onClick={() =>
-                              navigate(`/admin/job/${job._id}`)
-                            }
-                          >
+                          <li onClick={() => navigate(`/admin/job/${job._id}`)}>
                             <span className="jobs-action-icon">
                               <TiEdit />
                             </span>
@@ -54,9 +57,26 @@ const JobListingTable = ({ jobs }) => {
                           </li>
                           <li>
                             <span className="icon">
+                              <MdPeopleOutline />
+                            </span>
+                            Applicants
+                          </li>
+                          <li>
+                            <span className="icon">
                               <RiDeleteBin6Line />
                             </span>
                             Delete
+                          </li>
+                          <li >
+                            <Link style={{
+                              color:'black',
+                              textDecoration:'none'
+                              } }>
+                              <span >
+                                <MdOutlineDescription />
+                              </span>
+                             <span  style={{paddingLeft:'8px'}}>More</span>
+                            </Link  >
                           </li>
                         </ul>
                       </div>

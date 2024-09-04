@@ -54,8 +54,8 @@ const CreateJobForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form onSubmit={handleSubmit} className="job-Form">
+      <div className="job-Form-inputs">
         <label>Title:</label>
         <input
           type="text"
@@ -66,7 +66,7 @@ const CreateJobForm = () => {
         />
       </div>
 
-      <div>
+      <div  className="job-Form-inputs">
         <label>Description:</label>
         <textarea
           type="text"
@@ -77,10 +77,10 @@ const CreateJobForm = () => {
         ></textarea>
       </div>
 
-      <div>
+      <div  className="job-Form-inputs">
         <label>Requirements:</label>
 
-        <div>
+        <div  className="job-Form-inputs">
           <input
             type="text"
             name="requirements"
@@ -91,7 +91,7 @@ const CreateJobForm = () => {
         </div>
       </div>
 
-      <div>
+      <div  className="job-Form-inputs">
         <label>Location:</label>
         <input
           type="text"
@@ -102,7 +102,7 @@ const CreateJobForm = () => {
         />
       </div>
 
-      <div>
+      <div  className="job-Form-inputs">
         <label>Salary:</label>
         <input
           type="number"
@@ -113,7 +113,7 @@ const CreateJobForm = () => {
         />
       </div>
 
-      <div>
+      <div  className="job-Form-inputs">
         <label>Job Type:</label>
         <select name="jobType" id="jobType" onChange={handleChange}>
           <option value="Full-Time">Full-Time</option>
@@ -124,7 +124,7 @@ const CreateJobForm = () => {
         </select>
       </div>
 
-      <div>
+      <div  className="job-Form-inputs">
         <label>Position:</label>
         <input
           type="number"
@@ -135,7 +135,7 @@ const CreateJobForm = () => {
         />
       </div>
 
-      <div>
+      <div  className="job-Form-inputs">
         <label>Experience Level:</label>
         <input
           type="number"
