@@ -70,7 +70,6 @@ exports.postJob = asyncHandler(async (req, res, next) => {
     return next(new errorHandler(500, error.message));
   }
 });
-
 exports.getAllJobs = asyncHandler(async (req, res, next) => {
   try {
     const keyword = req.query.keyword || "";
@@ -93,7 +92,6 @@ exports.getAllJobs = asyncHandler(async (req, res, next) => {
     return next(new errorHandler(500, error.message));
   }
 });
-
 exports.getJobsById = asyncHandler(async (req, res, next) => {
   try {
     const jobId = req.params.id;
