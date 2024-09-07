@@ -1,16 +1,23 @@
 import "../styles/updatedJob.css";
 import { useState } from "react";
-import axios from "axios";
-import { JOBS_API_END_POINT } from "../../constant/constants";
+// import axios from "axios";
+// import { JOBS_API_END_POINT } from "../../constant/constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { useSelector, useDispatch } from "react-redux";
-
+import { useSelector } from "react-redux";
+/**
+ * remains :
+ * send updated data to server
+ * update adminalljob state in redux
+ * sync it to evey where
+ * @
+ *
+ */
 const updateJob = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigate = useNavigate();
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const dispatch = useDispatch();
+  //   const dispatch = useDispatch();
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const params = useParams();
   const JobId = params.id;
@@ -28,27 +35,25 @@ const updateJob = () => {
     jobType: update_Job.jobType,
     position: update_Job.position,
     experienceLevel: update_Job.experienceLevel,
-});
+  });
 
-experienceLevel.unshift(jobUpdatedData.experienceLevel)
-console.log(jobUpdatedData.experienceLevel);
+  experienceLevel.unshift(jobUpdatedData.experienceLevel);
+  console.log(jobUpdatedData.experienceLevel);
 
-const handleChange = (e) => {
-    
+  const handleChange = (e) => {
     setJobUpdatedData({
       ...jobUpdatedData,
       [e.target.name]: e.target.value,
     });
   };
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     //   const token = localStorage.getItem("token");
-         toast.success("can not update write now ");
-         setTimeout(() => {
-             navigate('/admin/jobs')
-            
-         }, 2000);       
+    toast.success("can not update write now ");
+    setTimeout(() => {
+      navigate("/admin/jobs");
+    }, 2000);
     //   try {
     //     const res = await axios.post(`${JOBS_API_END_POINT}`, jobUpdatedData, {
     //       headers: { Authorization: `Bearer ${token}` },
@@ -68,7 +73,7 @@ const handleChange = (e) => {
     //       error.response.data.message
     //     );
     //   }
-    };
+  };
 
   return (
     <div>
@@ -156,10 +161,10 @@ const handleChange = (e) => {
 
         <div className="job-Form-inputs">
           <label>Experience Level:</label>
-          <select name="experienceLevel"  onChange={handleChange}>
+          <select name="experienceLevel" onChange={handleChange}>
             {experienceLevel.map((year) => (
-              <option key={year} value={year} >
-              {Number(year)}
+              <option key={year} value={year}>
+                {Number(year)}
               </option>
             ))}
 
