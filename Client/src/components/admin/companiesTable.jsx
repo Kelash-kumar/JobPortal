@@ -6,15 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 // eslint-disable-next-line react/prop-types
 const CompaniesTable = ({ companies, onDelete }) => {
-
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(null);
-  
+
   const { seacrchFilteredCompanyText } = useSelector(
     (state) => state.companies
   );
-  
-  const [filteredSearchedCompany, setFilteredSearchedCompany] = useState(companies);
+
+  const [filteredSearchedCompany, setFilteredSearchedCompany] =
+    useState(companies);
 
   const handleShowMenu = (companyId) => {
     setShowMenu(showMenu === companyId ? null : companyId);
@@ -30,7 +30,7 @@ const CompaniesTable = ({ companies, onDelete }) => {
     });
     setFilteredSearchedCompany(filteredCompany);
   }, [companies, seacrchFilteredCompanyText]);
-  
+
   return (
     <div className="companies-table-container">
       <h1>List Of All Companies</h1>

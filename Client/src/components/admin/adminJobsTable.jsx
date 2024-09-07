@@ -2,17 +2,33 @@ import { TiEdit } from "react-icons/ti";
 import { IoEllipsisHorizontalOutline } from "react-icons/io5";
 import { MdOutlineDescription } from "react-icons/md";
 import { MdPeopleOutline } from "react-icons/md";
+import {  useSelector } from "react-redux";
+
 // import { RiDeleteBin6Line } from "react-icons/ri";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 // eslint-disable-next-line react/prop-types
 const JobListingTable = ({ jobs }) => {
-  const [showMenu, setShowMenu] = useState(null);
 
+  const [showMenu, setShowMenu] = useState(null);
+  const {JobSearchText} = useSelector((state) => state.jobs);
+  const [filteredSearchedJobs, setFilteredSearchedJobs] = useState(jobs);
+   
   const handleShowMenu = (jobId) => {
     setShowMenu(showMenu === jobId ? null : jobId);
   };
+  useEffect(() =>{
+    // eslint-disable-next-line react/prop-types
+    const filteredJobs = jobs.filter((job) =>{
+      if(!JobSearchText)return true
+      return  job?.title
+      ?.toLowerCase().includes(JobSearchText.toLowerCase());
+    });
+    setFilteredSearchedJobs(filteredJobs)
+  },[jobs,JobSearchText])
+  
   return (
     <div className="job-table-container">
       <table className="job-table">
@@ -27,8 +43,8 @@ const JobListingTable = ({ jobs }) => {
           </tr>
         </thead>
         <tbody>
-          {jobs.length > 0 ? (
-            jobs.map((job) => (
+          {filteredSearchedJobs.length > 0 ? (
+            filteredSearchedJobs.map((job) => (
               <tr key={job._id}>
                 <td>
                   {/* <Link to={`/admin/job/:${job._id}`}> */}
